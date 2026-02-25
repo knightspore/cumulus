@@ -1,6 +1,7 @@
 import { defineLexiconConfig } from "@atcute/lex-cli";
 
 export default defineLexiconConfig({
+    imports: ['@atcute/atproto'],
     files: [
         'src/bet.ts',
         'src/market.ts',
@@ -10,6 +11,5 @@ export default defineLexiconConfig({
     export: {
         outdir: 'generated/json',
         clean: true,
-    },
-    imports: ['@atcute/atproto']
+    }
 });
