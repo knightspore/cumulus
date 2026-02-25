@@ -1,0 +1,31 @@
+{
+  "defs": {
+    "main": {
+      "key": "tid",
+      "record": {
+        "properties": {
+          "market": {
+            "description": "The record containing the Cumulus Market for this Resolution",
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "answer": {
+            "type": "string",
+            "enum": ["yes", "no"]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        },
+        "required": ["market", "answer", "createdAt"],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "description": "The record containing the Resolution for a Cumulus Market",
+  "id": "za.co.ciaran.cumulus.resolution",
+  "lexicon": 1,
+  "revision": 1
+}
