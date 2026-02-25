@@ -1,0 +1,21 @@
+{
+  "name": "lexicon",
+  "module": "src/lexicons/index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "generate": "bun test && bun lex-cli export && bun lex-cli generate"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@atcute/lex-cli": "^2.5.3",
+    "@atcute/lexicon-doc": "^2.1.1",
+    "@atcute/lexicons": "^1.2.9",
+    "vitest": "^4.0.18"
+  }
+}
