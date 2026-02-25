@@ -1,0 +1,31 @@
+{
+  "defs": {
+    "main": {
+      "key": "tid",
+      "record": {
+        "properties": {
+          "market": {
+            "description": "The record containing the Cumulus Market for this Bet",
+            "ref": "com.atproto.repo.strongRef",
+            "type": "ref"
+          },
+          "position": {
+            "type": "string",
+            "enum": ["yes", "no"]
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "datetime"
+          }
+        },
+        "required": ["market", "position", "createdAt"],
+        "type": "object"
+      },
+      "type": "record"
+    }
+  },
+  "description": "The record containing a Bet placed on a Cumulus Market",
+  "id": "za.co.ciaran.cumulus.bet",
+  "lexicon": 1,
+  "revision": 1
+}
