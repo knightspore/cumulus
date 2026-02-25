@@ -4,6 +4,9 @@
   "workspaces": {
     "": {
       "name": "cumulus-prediction-market",
+      "dependencies": {
+        "@atcute/atproto": "^3.1.10",
+      },
       "devDependencies": {
         "@types/bun": "latest",
       },
@@ -14,6 +17,7 @@
     "packages/lexicon": {
       "name": "lexicon",
       "dependencies": {
+        "@atcute/cid": "^2.4.1",
         "@atcute/lex-cli": "^2.5.3",
         "@atcute/lexicon-doc": "^2.1.1",
         "@atcute/lexicons": "^1.2.9",
@@ -28,6 +32,8 @@
     },
   },
   "packages": {
+    "@atcute/atproto": ["@atcute/atproto@3.1.10", "", { "dependencies": { "@atcute/lexicons": "^1.2.6" } }, "sha512-+GKZpOc0PJcdWMQEkTfg/rSNDAAHxmAUGBl60g2az15etqJn5WaUPNGFE2sB7hKpwi5Ue2h/L0OacINcE/JDDQ=="],
+
     "@atcute/car": ["@atcute/car@5.1.1", "", { "dependencies": { "@atcute/cbor": "^2.3.2", "@atcute/cid": "^2.4.1", "@atcute/uint8array": "^1.1.1", "@atcute/varint": "^2.0.0" } }, "sha512-MeRUJNXYgAHrJZw7mMoZJb9xIqv3LZLQw90rRRAVAo8SGNdICwyqe6Bf2LGesX73QM04MBuYO6Kqhvold3TFfg=="],
 
     "@atcute/cbor": ["@atcute/cbor@2.3.2", "", { "dependencies": { "@atcute/cid": "^2.4.1", "@atcute/multibase": "^1.1.8", "@atcute/uint8array": "^1.1.1" } }, "sha512-xP2SORSau/VVI00x2V4BjwIkHr6EQ7l/MXEOPaa4LGYtePFc4gnD4L1yN10dT5NEuUnvGEuCh6arLB7gz1smVQ=="],
