@@ -17,7 +17,7 @@ const data = {
     createdAt: "2026-02-25T11:52:33.278Z",
 }
 
-it("market schema validation", () => {
+it("resolution schema validation", () => {
     const resolution = parse(ZaCoCiaranCumulusResolution.mainSchema, data);
     expect(resolution.$type).toEqual("za.co.ciaran.cumulus.resolution");
     expect(resolution.market).toEqual({
