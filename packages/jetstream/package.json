@@ -1,0 +1,16 @@
+{
+    "name": "jetstream",
+    "module": "index.ts",
+    "type": "module",
+    "private": true,
+    "devDependencies": {
+        "@types/bun": "latest"
+    },
+    "peerDependencies": {
+        "typescript": "^5"
+    },
+    "dependencies": {
+        "@atcute/jetstream": "^1.1.2",
+        "lexicon": "workspace:lexicon"
+    }
+}
