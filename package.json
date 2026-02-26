@@ -1,7 +1,5 @@
 {
     "name": "cumulus-prediction-market",
-    "module": "index.ts",
-    "type": "module",
     "private": true,
     "workspaces": [
         "packages/*"
