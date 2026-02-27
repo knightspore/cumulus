@@ -1,0 +1,63 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+    provider = "prisma-client"
+    output   = "../generated/prisma"
+}
+
+datasource db {
+    provider = "sqlite"
+}
+
+model Market {
+    uri         String       @id
+    did         String
+    rkey        String
+    cid         String
+    question    String
+    liquidity   Int
+    closesAt    DateTime
+    createdAt   DateTime
+    indexedAt   DateTime     @default(now())
+    record      String
+    bets        Bet[]
+    resolutions Resolution[]
+
+    @@index([did])
+    @@index([closesAt])
+}
+
+model Bet {
+    uri       String   @id
+    did       String
+    rkey      String
+    cid       String
+    marketUri String
+    marketCid String
+    position  String
+    createdAt DateTime
+    indexedAt DateTime @default(now())
+    record    String
+    market    Market   @relation(fields: [marketUri], references: [uri])
+
+    @@index([did])
+    @@index([marketUri])
+}
+
+model Resolution {
+    uri       String   @id
+    did       String
+    rkey      String
+    cid       String
+    marketUri String
+    marketCid String
+    answer    String
+    createdAt DateTime
+    indexedAt DateTime @default(now())
+    record    String
+    market    Market   @relation(fields: [marketUri], references: [uri])
+
+    @@index([did])
+    @@index([marketUri])
+}
