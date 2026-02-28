@@ -1,6 +1,6 @@
 import { parse } from "@atcute/lexicons";
 import { it, expect } from "vitest";
-import { ZaCoCiaranCumulusBet } from "../generated/typescript";
+import { ZaCoCiaranCumulusBet } from "../../generated/typescript";
 import * as CID from "@atcute/cid";
 import * as TID from "@atcute/tid";
 

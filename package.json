@@ -1,16 +1,28 @@
 {
     "name": "cumulus-prediction-market",
     "private": true,
+    "scripts": {
+        "generate": "bun lex-cli export && bun lex-cli generate",
+        "build": "bun run test && bun generate",
+        "test": "bun run vitest"
+    },
     "workspaces": [
         "packages/*"
     ],
     "devDependencies": {
-        "@types/bun": "latest"
+        "@types/bun": "latest",
+        "vitest": "^4.0.18",
+        "@atcute/cid": "^2.4.1",
+        "@atcute/tid": "^1.1.2"
     },
     "peerDependencies": {
         "typescript": "^5"
     },
     "dependencies": {
-        "@atcute/atproto": "^3.1.10"
+        "@atcute/atproto": "^3.1.10",
+        "@atcute/lex-cli": "^2.5.3",
+        "@atcute/lexicon-doc": "^2.1.1",
+        "@atcute/lexicons": "^1.2.9",
+        "@atcute/jetstream": "^1.1.2"
     }
 }

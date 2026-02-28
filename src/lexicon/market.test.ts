@@ -1,6 +1,6 @@
 import { parse } from "@atcute/lexicons";
 import { it, expect } from "vitest";
-import { ZaCoCiaranCumulusMarket } from "../generated/typescript";
+import { ZaCoCiaranCumulusMarket } from "../../generated/typescript";
 
 const data = {
     $type: "za.co.ciaran.cumulus.market",
