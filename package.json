@@ -6,10 +6,11 @@
         "test": "bun run vitest"
     },
     "devDependencies": {
+        "@atcute/cid": "^2.4.1",
+        "@atcute/tid": "^1.1.2",
         "@types/bun": "latest",
         "vitest": "^4.0.18",
-        "@atcute/cid": "^2.4.1",
-        "@atcute/tid": "^1.1.2"
+        "wrangler": "^4.69.0"
     },
     "peerDependencies": {
         "typescript": "^5"
