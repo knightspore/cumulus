@@ -24,6 +24,12 @@
     // Some stricter flags (disabled by default)
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "noPropertyAccessFromIndexSignature": false
+    "noPropertyAccessFromIndexSignature": false,
+    "types": [
+        "@types/bun",
+        "@atcute/bluesky",
+        "@atcute/atproto",
+        "generated/typescript"
+    ]
   }
 }
