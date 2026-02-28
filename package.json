@@ -1,14 +1,9 @@
 {
     "name": "cumulus-prediction-market",
-    "private": true,
     "scripts": {
-        "generate": "bun lex-cli export && bun lex-cli generate",
-        "build": "bun run test && bun generate",
+        "generate:lex": "bun lex-cli export && bun lex-cli generate",
         "test": "bun run vitest"
     },
-    "workspaces": [
-        "packages/*"
-    ],
     "devDependencies": {
         "@types/bun": "latest",
         "vitest": "^4.0.18",
