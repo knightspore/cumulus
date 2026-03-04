@@ -8,9 +8,9 @@
         "db:generate": "bunx drizzle-kit generate",
         "db:migrate": "bunx drizzle-kit migrate",
         "jetstream:dev": "bun --watch src/jetstream/index.ts",
-        "jetstream:build": "bun build src/jetstream/index.ts --compile --outfile dist/jetstream",
+        "jetstream:build": "bun lex:generate && bun build src/jetstream/index.ts --compile --outfile dist/jetstream",
         "docker:build": "sudo -E docker build --pull -t cumulus .",
-        "test": "bun run vitest"
+        "test": "bun vitest"
     },
     "devDependencies": {
         "@atcute/cid": "^2.4.1",
