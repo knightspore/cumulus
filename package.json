@@ -1,6 +1,7 @@
 {
     "name": "cumulus-prediction-market",
     "scripts": {
+        "docker:build": "sudo -E docker build --pull -t cumulus .",
         "jetstream:dev": "bun --watch src/jetstream/index.ts",
         "jetstream:build": "bun build src/jetstream/index.ts --compile --outfile dist/jetstream",
         "lex:generate": "bun lex-cli export && bun lex-cli generate",
