@@ -1,20 +1,25 @@
-import { JetstreamSubscription } from "@atcute/jetstream"
+import { type CreateCommit, type DeleteCommit, type UpdateCommit } from "@atcute/jetstream"
+import { jetstream } from "./config";
 
-const URL = "wss://jetstream2.us-east.bsky.network";
-const COLLECTIONS = ['za.co.ciaran.cumulus.*']
+console.log(`> Connecting to ${jetstream.getOptions().url} and listening for events from ${jetstream.getOptions().wantedCollections?.join(', ')}`);
 
-const subscription = new JetstreamSubscription({
-    url: URL,
-    wantedCollections: COLLECTIONS,
-    onConnectionOpen: () => console.warn("> Connected to Jetstream: ", subscription.getOptions().url),
-    onConnectionClose: () => console.warn("> Disconnected from Jetstream: ", subscription.getOptions().url),
-    onConnectionError: (e) => console.error("> Error in Jetstream Subscription: ", e),
-});
+async function handleCreate(commit: CreateCommit) {
+    console.log("create", commit);
+}
 
-console.log(`> Connecting to ${subscription.getOptions().url} and listening for events from ${subscription.getOptions().wantedCollections?.join(', ')}`);
+async function handleUpdate(commit: UpdateCommit) {
+    console.log("update", commit);
+}
 
-for await (const event of subscription) {
-    if (event.kind === "commit") {
-        console.log(event.kind, event.commit);
+async function handleDelete(commit: DeleteCommit) {
+    console.log("delete", commit);
+}
+
+for await (const event of jetstream) {
+    if (event.kind === "commit") switch (event.commit.operation) {
+        case "create": handleCreate(event.commit); break;
+        case "update": handleUpdate(event.commit); break;
+        case "delete": handleDelete(event.commit); break;
+        default: throw new Error("Unknown Commit Type: " + event);
     }
 }
