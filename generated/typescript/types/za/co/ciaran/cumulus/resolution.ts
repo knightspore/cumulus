@@ -7,6 +7,10 @@ const _mainSchema = /*#__PURE__*/ v.record(
   /*#__PURE__*/ v.tidString(),
   /*#__PURE__*/ v.object({
     $type: /*#__PURE__*/ v.literal("za.co.ciaran.cumulus.resolution"),
+    /**
+     * @minLength 2
+     * @maxLength 3
+     */
     answer: /*#__PURE__*/ v.literalEnum(["no", "yes"]),
     createdAt: /*#__PURE__*/ v.datetimeString(),
     /**

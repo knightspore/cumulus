@@ -14,6 +14,10 @@ const _mainSchema = /*#__PURE__*/ v.record(
     get market() {
       return ComAtprotoRepoStrongRef.mainSchema;
     },
+    /**
+     * @minLength 2
+     * @maxLength 3
+     */
     position: /*#__PURE__*/ v.literalEnum(["no", "yes"]),
   }),
 );

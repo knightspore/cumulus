@@ -1,6 +1,7 @@
 {
   "defs": {
     "main": {
+      "description": "The record containing a Cumulus Market",
       "key": "tid",
       "record": {
         "properties": {
@@ -29,6 +30,5 @@
   },
   "description": "The record containing a Cumulus Market",
   "id": "za.co.ciaran.cumulus.market",
-  "lexicon": 1,
-  "revision": 1
+  "lexicon": 1
 }

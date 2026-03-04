@@ -1,6 +1,7 @@
 {
   "defs": {
     "main": {
+      "description": "The record containing a Bet placed on a Cumulus Market",
       "key": "tid",
       "record": {
         "properties": {
@@ -11,7 +12,9 @@
           },
           "position": {
             "type": "string",
-            "enum": ["yes", "no"]
+            "enum": ["yes", "no"],
+            "maxLength": 3,
+            "minLength": 2
           },
           "createdAt": {
             "type": "string",
@@ -26,6 +29,5 @@
   },
   "description": "The record containing a Bet placed on a Cumulus Market",
   "id": "za.co.ciaran.cumulus.bet",
-  "lexicon": 1,
-  "revision": 1
+  "lexicon": 1
 }

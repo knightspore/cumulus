@@ -1,12 +1,16 @@
 import { document, integer, object, record, required, string } from "@atcute/lexicon-doc/builder";
 
+const data = {
+    description: 'The record containing a Cumulus Market',
+}
+
 export default document({
     id: 'za.co.ciaran.cumulus.market',
-    description: 'The record containing a Cumulus Market',
-    revision: 1,
+    description: data.description,
     defs: {
         main: record({
             key: 'tid',
+            description: 'The record containing a Cumulus Market',
             record: object({
                 properties: {
                     question: required(string({ maxLength: 140 })),
