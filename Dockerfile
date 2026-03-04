@@ -1,17 +1,31 @@
-FROM oven/bun:1 AS jetstream-builder
-
-WORKDIR /jetstream
+FROM oven/bun:1 AS deps
+WORKDIR /app
 COPY package.json bun.lock ./
 RUN bun install
-COPY ./lex.config.js ./
-COPY ./src ./src
+
+FROM deps AS jetstream-builder
+COPY lex.config.js ./
+COPY src ./src
 RUN bun run jetstream:build
-RUN cd build && pwd
+
+FROM deps AS web-builder
+COPY lex.config.js ./
+COPY src ./src
+COPY vite.config.ts ./
+
+FROM deps AS server-builder
+COPY src ./src
+RUN bun run server:build
 
 FROM oven/bun:1
-
 WORKDIR /app
 
-COPY --from=jetstream-builder /jetstream/build/jetstream ./
+COPY --from=jetstream-builder /app/build/jetstream ./build/
+COPY --from=server-builder /app/build/server ./build/
+COPY --from=web-builder /app/dist ./dist
 
-CMD ["./jetstream"]
+COPY entrypoint.sh ./
+RUN chmod +x entry.point.sh
+EXPOSE 80
+
+CMD ["./entrypoint.sh"]
