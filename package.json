@@ -10,6 +10,9 @@
         "db:migrate": "bunx drizzle-kit migrate",
         "jetstream:dev": "bun --watch src/jetstream/index.ts",
         "jetstream:build": "bun lex:generate && bun build src/jetstream/index.ts --compile --outfile build/jetstream",
+        "client:dev": "vite",
+        "client:build": "vite build",
+        "client:preview": "vite preview",
         "docker:build": "sudo -E docker build --pull -t cumulus .",
         "test": "bun vitest"
     },
