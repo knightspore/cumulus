@@ -1,0 +1,66 @@
+create {
+  rev: "3mg6czrjigj27",
+  operation: "create",
+  collection: "za.co.ciaran.cumulus.market",
+  rkey: "3mg6czrivur27",
+  record: {
+    $type: "za.co.ciaran.cumulus.market",
+    closesAt: "2026-05-03T17:43:56.706Z",
+    createdAt: "2026-03-03T17:43:56.709Z",
+    liquidity: 50,
+    question: "What will I do?",
+  },
+  cid: "bafyreihvnkc4k4x6gc2qh2paoxcig66f77kydncwqzxlqvz4gwzu6wunyu",
+}
+create {
+  rev: "3mg6czrtnxz24",
+  operation: "create",
+  collection: "za.co.ciaran.cumulus.bet",
+  rkey: "3mg6czrt5er24",
+  record: {
+    $type: "za.co.ciaran.cumulus.bet",
+    createdAt: "2026-03-03T17:43:57.522Z",
+    market: {
+      $type: "com.atproto.repo.strongRef",
+      cid: "bafyreihvnkc4k4x6gc2qh2paoxcig66f77kydncwqzxlqvz4gwzu6wunyu",
+      uri: "at://did:plc:ssntylce6aeeazwb64ol6nsj/za.co.ciaran.cumulus.market/3mg6czrivur27",
+    },
+    position: "yes",
+  },
+  cid: "bafyreib5koypyneafy5kke2qmlwvvtg5pfqmptqvha4exdbiettppkchzi",
+}
+create {
+  rev: "3mg6czs52sy2k",
+  operation: "create",
+  collection: "za.co.ciaran.cumulus.resolution",
+  rkey: "3mg6czs4o4q2k",
+  record: {
+    $type: "za.co.ciaran.cumulus.resolution",
+    answer: "yes",
+    createdAt: "2026-03-03T17:43:57.837Z",
+    market: {
+      $type: "com.atproto.repo.strongRef",
+      cid: "bafyreihvnkc4k4x6gc2qh2paoxcig66f77kydncwqzxlqvz4gwzu6wunyu",
+      uri: "at://did:plc:ssntylce6aeeazwb64ol6nsj/za.co.ciaran.cumulus.market/3mg6czrivur27",
+    },
+  },
+  cid: "bafyreigqjpvuogpowigrvknes5hpqtjrhjo46o2cl4uxdh4yirywiqvnt4",
+}
+delete {
+  rev: "3mg6d3vpiby2c",
+  operation: "delete",
+  collection: "za.co.ciaran.cumulus.bet",
+  rkey: "3mg6czrt5er24",
+}
+delete {
+  rev: "3mg6d3za6dy2z",
+  operation: "delete",
+  collection: "za.co.ciaran.cumulus.market",
+  rkey: "3mg6czrivur27",
+}
+delete {
+  rev: "3mg6d446p7o2r",
+  operation: "delete",
+  collection: "za.co.ciaran.cumulus.resolution",
+  rkey: "3mg6czs4o4q2k",
+}
