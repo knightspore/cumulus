@@ -28,7 +28,7 @@ export default defineConfig({
     server: {
         host: SERVER_HOST,
         port: SERVER_PORT,
-        proxy: { "/api": "http://localhost:8080" }
+        proxy: { "/api": `http://${SERVER_HOST}:${import.meta.env.PORT}` }
     },
     root: path.resolve(__dirname, './src/web'),
     plugins: [
