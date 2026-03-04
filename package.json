@@ -1,18 +1,23 @@
 {
     "name": "cumulus-prediction-market",
     "scripts": {
-        "docker:build": "sudo -E docker build --pull -t cumulus .",
-        "jetstream:dev": "bun --watch src/jetstream/index.ts",
-        "jetstream:build": "bun build src/jetstream/index.ts --compile --outfile dist/jetstream",
         "lex:generate": "bun lex-cli export && bun lex-cli generate",
         "lex:lint": "goat lex lint generated && goat lex check-dns generated",
         "lex:publish": "goat lex publish generated",
+        "db:push": "bunx drizzle-kit push",
+        "db:generate": "bunx drizzle-kit generate",
+        "db:migrate": "bunx drizzle-kit migrate",
+        "jetstream:dev": "bun --watch src/jetstream/index.ts",
+        "jetstream:build": "bun build src/jetstream/index.ts --compile --outfile dist/jetstream",
+        "docker:build": "sudo -E docker build --pull -t cumulus .",
         "test": "bun run vitest"
     },
     "devDependencies": {
         "@atcute/cid": "^2.4.1",
         "@atcute/tid": "^1.1.2",
         "@types/bun": "latest",
+        "@types/pg": "^8.18.0",
+        "drizzle-kit": "^0.31.9",
         "vitest": "^4.0.18",
         "wrangler": "^4.69.0"
     },
@@ -26,6 +31,9 @@
         "@atcute/lex-cli": "^2.5.3",
         "@atcute/lexicon-doc": "^2.1.1",
         "@atcute/lexicons": "^1.2.9",
-        "@atcute/password-session": "^0.1.0"
+        "@atcute/password-session": "^0.1.0",
+        "dotenv": "^17.3.1",
+        "drizzle-orm": "^0.45.1",
+        "pg": "^8.19.0"
     }
 }
