@@ -12,6 +12,7 @@ FROM deps AS web-builder
 COPY lex.config.js ./
 COPY src ./src
 COPY vite.config.ts ./
+RUN bun web:build
 
 FROM deps AS server-builder
 COPY src ./src
