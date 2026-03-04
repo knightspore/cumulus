@@ -10,6 +10,7 @@
         "db:migrate": "bunx drizzle-kit migrate",
         "jetstream:dev": "bun --watch src/jetstream/index.ts",
         "jetstream:build": "bun lex:generate && bun build src/jetstream/index.ts --compile --outfile build/jetstream",
+        "server:dev": "bun --watch src/server/index.ts",
         "client:dev": "vite",
         "client:build": "vite build",
         "client:preview": "vite preview",
@@ -43,8 +44,10 @@
         "@atcute/lexicon-doc": "^2.1.1",
         "@atcute/lexicons": "^1.2.9",
         "@atcute/password-session": "^0.1.0",
+        "@elysiajs/static": "^1.4.7",
         "dotenv": "^17.3.1",
         "drizzle-orm": "^0.45.1",
+        "elysia": "^1.4.27",
         "pg": "^8.19.0"
     }
 }
