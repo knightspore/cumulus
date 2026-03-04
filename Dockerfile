@@ -6,12 +6,12 @@ RUN bun install
 COPY ./lex.config.js ./
 COPY ./src ./src
 RUN bun run jetstream:build
-RUN cd build && pwd
+RUN cd dist && pwd
 
 FROM oven/bun:1
 
 WORKDIR /app
 
-COPY --from=jetstream-builder /jetstream/build/jetstream ./
+COPY --from=jetstream-builder /jetstream/dist/jetstream ./
 
 CMD ["./jetstream"]
