@@ -1,8 +1,8 @@
 {
-	"client_id": "https://example.com/oauth-client-metadata.json",
-	"client_name": "My App",
-	"client_uri": "https://example.com",
-	"redirect_uris": ["https://example.com/oauth/callback"],
+	"client_id": "http://127.0.0.1:8080/oauth-client-metadata.json",
+	"client_name": "Cumulus",
+	"client_uri": "http://127.0.0.1:8080",
+	"redirect_uris": ["http://127.0.0.1:8080/"],
 	"scope": "atproto transition:generic",
 	"grant_types": ["authorization_code", "refresh_token"],
 	"response_types": ["code"],
