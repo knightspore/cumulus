@@ -2,6 +2,7 @@
     "name": "cumulus-prediction-market",
     "scripts": {
         "jetstream:dev": "bun --watch src/jetstream/index.ts",
+        "jetstream:build": "bun build src/jetstream/index.ts --compile --outfile dist/jetstream",
         "lex:generate": "bun lex-cli export && bun lex-cli generate",
         "lex:lint": "goat lex lint generated && goat lex check-dns generated",
         "lex:publish": "goat lex publish generated",
