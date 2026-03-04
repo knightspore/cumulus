@@ -1,6 +1,5 @@
 {
     "name": "cumulus-prediction-market",
-    "type": "module",
     "scripts": {
         "lex:generate": "bun lex-cli export && bun lex-cli generate",
         "lex:lint": "goat lex lint generated && goat lex check-dns generated",
@@ -10,9 +9,6 @@
         "db:migrate": "bunx drizzle-kit migrate",
         "jetstream:dev": "bun --watch src/jetstream/index.ts",
         "jetstream:build": "bun lex:generate && bun build src/jetstream/index.ts --compile --outfile build/jetstream",
-        "client:dev": "vite",
-        "client:build": "vite build",
-        "client:preview": "vite preview",
         "docker:build": "sudo -E docker build --pull -t cumulus .",
         "test": "bun vitest"
     },
@@ -21,12 +17,7 @@
         "@atcute/tid": "^1.1.2",
         "@types/bun": "latest",
         "@types/pg": "^8.18.0",
-        "@types/react": "^19.2.14",
-        "@types/react-dom": "^19.2.3",
-        "@vitejs/plugin-react": "^5.1.4",
         "drizzle-kit": "^0.31.9",
-        "path": "^0.12.7",
-        "vite": "^7.3.1",
         "vitest": "^4.0.18",
         "wrangler": "^4.69.0"
     },
@@ -43,8 +34,6 @@
         "@atcute/password-session": "^0.1.0",
         "dotenv": "^17.3.1",
         "drizzle-orm": "^0.45.1",
-        "pg": "^8.19.0",
-        "react": "^19.2.4",
-        "react-dom": "^19.2.4"
+        "pg": "^8.19.0"
     }
 }
