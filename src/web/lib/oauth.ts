@@ -42,7 +42,6 @@ export async function logout(identifier: ActorIdentifier) {
         const session = await getSession(identifier, { allowStale: true });
         const agent = new OAuthUserAgent(session);
         await agent.signOut();
-        debugger;
     } catch {
         deleteStoredSession(identifier);
     }
