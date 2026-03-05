@@ -1,8 +1,8 @@
 import { configureOAuth, createAuthorizationUrl, deleteStoredSession, finalizeAuthorization, getSession, OAuthUserAgent } from '@atcute/oauth-browser-client';
 import { CompositeDidDocumentResolver, LocalActorResolver, PlcDidDocumentResolver, WebDidDocumentResolver, XrpcHandleResolver } from '@atcute/identity-resolver';
-import type { ActorIdentifier, Did } from '@atcute/lexicons';
+import type { ActorIdentifier } from '@atcute/lexicons';
 import { Client } from '@atcute/client';
-import { isHandle } from '@atcute/lexicons/syntax';
+import { isActorIdentifier, isHandle } from '@atcute/lexicons/syntax';
 
 const handleResolver = new XrpcHandleResolver({
     serviceUrl: 'https://public.api.bsky.app',
@@ -26,8 +26,8 @@ configureOAuth({
     }),
 });
 
-export async function login(did: ActorIdentifier) {
-    console.log("Logging in:", did);
+export async function handleLogin(did: ActorIdentifier| string) {
+    if (!isActorIdentifier(did)) throw new Error("Invalid identifier");
     const url = await createAuthorizationUrl({
         target: { type: 'account', identifier: did },
         scope: 'atproto transition:generic',
