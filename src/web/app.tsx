@@ -1,63 +1,27 @@
 import { useCumulus } from "./providers/useCumulus";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "./components/ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "./components/ui/card";
 import { formatDistance } from "date-fns"
-import { Spinner } from "./components/ui/spinner";
+import type { Market } from "./providers/cumulus-provider";
 
 export default function App() {
+    const { markets } = useCumulus();
     return <div className="p-4 space-y-4">
-        <BetList />
-        <MarketList />
-        <ResolutionList />
+        <h2>Markets</h2>
+        {markets.data?.map(m => <Market key={m.cid} market={m} />)}
     </div>
 }
 
-function BetList() {
-    const { bets } = useCumulus();
+function Market({ market }: { market: Market }) {
     return <Card>
         <CardHeader>
-            <CardTitle>Bets</CardTitle>
+            <CardTitle>{market.question}</CardTitle>
+            <CardDescription>Closes {formatDistance(new Date(market.closesAt), new Date(), { addSuffix: true })}</CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-            {bets.isLoading ? <Spinner /> : bets.data?.map(b => (<Card key={b.market.uri}>
-                <CardHeader>
-                    <CardTitle>{b.position}</CardTitle>
-                    <CardDescription>Created {formatDistance(new Date(b.createdAt), new Date(), { addSuffix: true })}</CardDescription>
-                </CardHeader>
-            </Card>))}
+        <CardContent>
+            <p>Resolution: {market.resolution?.answer}</p>
         </CardContent>
-    </Card>
-}
-
-function MarketList() {
-    const { markets } = useCumulus();
-    return <Card>
-        <CardHeader>
-            <CardTitle>Markets</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-            {markets.isLoading ? <Spinner /> : markets.data?.map(m => (<Card key={m.question}>
-                <CardHeader>
-                    <CardTitle>{m.question}</CardTitle>
-                    <CardDescription>Closes {formatDistance(new Date(m.closesAt), new Date(), { addSuffix: true })}</CardDescription>
-                </CardHeader>
-            </Card>))}
-        </CardContent>
-    </Card>
-}
-
-function ResolutionList() {
-    const { resolutions } = useCumulus();
-    return <Card>
-        <CardHeader>
-            <CardTitle>Resolutions</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-            {resolutions.isLoading ? <Spinner /> : resolutions.data?.map(r => (<Card key={r.market.cid}>
-                <CardHeader>
-                    <CardTitle>{r.answer}</CardTitle>
-                    <CardDescription>Resolved {formatDistance(new Date(r.createdAt), new Date(), { addSuffix: true })}</CardDescription>
-                </CardHeader>
-            </Card>))}
-        </CardContent>
+        <CardFooter>
+            <p>Bets: {market.bets?.length}</p>
+        </CardFooter>
     </Card>
 }
