@@ -1,4 +1,4 @@
-import { treaty, type Treaty } from "@elysiajs/eden"
+import { treaty } from "@elysiajs/eden"
 import { createContext, type PropsWithChildren } from "react";
 import { useAuth } from "./useAuth";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
@@ -6,7 +6,6 @@ import { type CumulusServer } from "@/server/types";
 import type { InferSelectModel } from "drizzle-orm";
 import * as schema from "../../db/schema"
 
-const server = treaty<CumulusServer>('localhost:8080');
 
 export type Market = InferSelectModel<typeof schema.marketsTable> & {
     bets?: InferSelectModel<typeof schema.betsTable>[],
@@ -20,6 +19,9 @@ export interface CumulusContext {
 export const CumulusContext = createContext<CumulusContext | undefined>(undefined);
 
 export default function Cumulus({ children }: PropsWithChildren) {
+
+    const server = treaty<CumulusServer>(window.location.origin);
+
     const { profile } = useAuth();
 
     const markets = useQuery({
