@@ -5,6 +5,8 @@ import { createContext, type PropsWithChildren } from "react";
 import { useSessionStorage } from "usehooks-ts";
 import { AppBskyActorDefs } from "@atcute/bluesky";
 import type { Client } from "@atcute/client";
+import AppLayout from "../components/shared/app-layout";
+import Avatar from "../components/shared/avatar";
 
 interface AuthContext {
     profile: AppBskyActorDefs.ProfileViewDetailed,
@@ -37,12 +39,16 @@ export default function Auth({ children }: PropsWithChildren) {
         staleTime: () => Infinity,
     });
 
-    if (isLoading) return <p>Loading...</p>
+    return <AppLayout header={<Avatar profile={data?.profile} />}>
 
-    if (!data) return <form onSubmit={(e) => e.preventDefault()}>
-        <input type="text" value={identifier} onChange={(e) => setIdentifier(e.target.value)} />
-        <button onClick={() => handleLogin(identifier)}>Login</button>
-    </form>
+        {data && !isLoading && <AuthContext.Provider value={{ profile: data.profile, client: data.client }}>
+            {children}
+        </AuthContext.Provider>}
 
-    return <AuthContext.Provider value={{ profile: data.profile, client: data.client }}>{children}</AuthContext.Provider>
+        {!data && !isLoading && <form onSubmit={(e) => e.preventDefault()}>
+            <input type="text" value={identifier} onChange={(e) => setIdentifier(e.target.value)} />
+            <button onClick={() => handleLogin(identifier)}>Login</button>
+        </form>}
+
+    </AppLayout>
 }
