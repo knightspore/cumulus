@@ -26,7 +26,7 @@ COPY --from=server-builder /app/build/server ./build/
 COPY --from=web-builder /app/dist ./dist
 
 COPY entrypoint.sh ./
-RUN chmod +x entry.point.sh
+RUN chmod +x entrypoint.sh
 EXPOSE 80
 
 CMD ["./entrypoint.sh"]
