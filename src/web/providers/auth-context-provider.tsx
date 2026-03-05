@@ -53,15 +53,12 @@ export default function Auth({ children }: PropsWithChildren) {
     const showLoginForm = !showLoader && !data && !isLoading;
     const showAppContent = !showLoginForm && data && !isLoading;
 
-    return <main className="text-shell-900 flex flex-col min-h-screen bg-shell-50">
-        <header className="bg-shell-100 p-2 h-10 flex justify-between gap-2 items-center">
-            <h1 className="justify-self-start uppercase text-xs font-medium">Cumulus</h1>
-            <div className="flex items-center gap-2">
-                {showLoader ? <Spinner /> : <Avatar profile={data?.profile} />}
-            </div>
+    return <main className="subpixel-antialiased text-shell-900 bg-shell-50 flex flex-col min-h-screen">
+        <header className="bg-shell-900 text-shell-50 p-2 h-10 flex justify-between gap-2 items-center">
+            <h1 className="text-coral-500 justify-self-start uppercase text-xs font-extrabold">Cumulus</h1>
+            <div className="flex items-center gap-2">{showLoader ? <Spinner /> : <Avatar profile={data?.profile} />}</div>
         </header>
-        <div className="flex-1 p-2">
-
+        <div className="flex-1">
             {showLoginForm && <form onSubmit={handleSubmit} className="mt-2 max-w-sm mx-auto flex flex-col gap-2">
                 <Input value={identifier} onChange={(e) => setIdentifier(e.target.value)} autoComplete="username" placeholder="username.com" />
                 <Button disabled={isLoginLoading} size="sm" type="submit">
@@ -73,7 +70,6 @@ export default function Auth({ children }: PropsWithChildren) {
             {showAppContent && <AuthContext.Provider value={{ profile: data.profile, client: data.client }}>
                 {children}
             </AuthContext.Provider>}
-
         </div>
     </main>
 }
