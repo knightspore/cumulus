@@ -25,30 +25,22 @@ export default function App() {
                         yes,
                         no,
                         yesPrice: yesPrice(yes, no, market.liquidity),
-                        testNoPrice: 1-yesPrice(yes,no,market.liquidity),
                         noPrice: noPrice(yes, no, market.liquidity),
                     }
                 })
 
-
-            return <div key={market.cid}>
-                <h2>{market.question}</h2>
-                <p>Closes {formatDistance(new Date(market.closesAt), new Date(), { addSuffix: true })}</p>
-                <p>{market.bets?.length} Positions</p>
+            return <div key={market.cid} className="space-y-2">
+                <h2 className="text-3xl font-medium">{market.question}</h2>
+                <p className="uppercase text-sm font-bold">Closes {formatDistance(new Date(market.closesAt), new Date(), { addSuffix: true })} | {market.bets?.length} Positions</p>
                 <ChartContainer
-                    className="border-2 rounded-lg"
                     config={{
                         yes: { label: "Yes" }, no: { label: "No" }
                     }}>
                     <LineChart data={mappedBets}>
-                        <CartesianGrid strokeDasharray="3 3" />
                         <ChartTooltip />
-                        <XAxis dataKey="createdAt" interval={8} />
                         <Line dataKey="yes" stroke="var(--color-shell-600)" />
                         <Line dataKey="no" stroke="var(--color-coral-600)" />
-                        <Line dataKey="yesPrice" stroke="var(--color-coral-600)" />
-                        <Line dataKey="testNoPrice" stroke="var(--color-coral-600)" />
-                        <Line dataKey="noPrice" stroke="var(--color-coral-600)" />
+                        <Line dataKey="yesPrice" />
                     </LineChart>
                 </ChartContainer>
             </div>

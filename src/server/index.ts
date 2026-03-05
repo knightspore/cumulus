@@ -14,9 +14,10 @@ export const app = new Elysia()
     .use(staticPlugin({ prefix: "/", assets: "dist" }))
     .get("/", () => new Response(Bun.file("dist/index.html")))
     .group("/api", (app) => (
-        app.get("/markets", async ({ params }) =>
+        app.get("/markets", async () =>
             Response.json(await db.query.marketsTable.findMany({
-                with: { bets: true, resolution: true }
+                with: { bets: true, resolution: true },
+                orderBy: (markets, { desc }) => [desc(markets.createdAt)],
             }))
         ).group("/market", (app) => (
             app.get("/:uri", async ({ params: { uri } }) =>
