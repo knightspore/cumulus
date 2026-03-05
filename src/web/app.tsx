@@ -38,7 +38,7 @@ export default function App() {
 
     const [loading, setLoading] = useState<string | boolean>(false);
 
-    if (markets.isLoading) return <Spinner className='m-auto' />
+    if (markets.isLoading) return <div className="p-4"><Spinner className='m-auto' /></div>
 
     return <div className="grid md:grid-cols-2 gap-2">
         {markets.data?.map(market => {
@@ -53,11 +53,7 @@ export default function App() {
                         cid: market.cid,
                     }, position, profile.did, client)
                     if (res.uri) {
-                        toast(`Placed "${position.toUpperCase()}" bet (${res.uri}) at market ${market.uri}`);
-                        toast(<div>
-                            <p>Placed bet: <a href={`https://pdsls.dev/${res.uri}`}>{position.toUpperCase()}</a></p>
-                            <p>At market: <a href={`https://pdsls.dev/${market.uri}`}>{market.rkey}</a></p>
-                        </div>)
+                        toast(<>Placed {position.toUpperCase()} Bet <a target="_blank" href={`https://pdsls.dev/${res.uri}`}>{res.uri.split("/")[res.uri.split("/").length-1]}</a> at market: <a target="_blank" href={`https://pdsls.dev/${market.uri}`}>{market.rkey}</a></>)
                     }
                 } catch (e) {
                     toast(e as any)
