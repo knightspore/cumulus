@@ -1,3 +1,3 @@
 #!/bin/sh
-./build/jetstream &&
-    ./build/server
+./build/jetstream &
+./build/server
