@@ -1,6 +1,8 @@
 import { useAuth } from "./providers/useAuth";
 import { useCumulus } from "./providers/useCumulus";
-import { formatDistance } from 'date-fns';
+import { Card, CardDescription, CardHeader, CardTitle } from "./components/ui/card";
+import { formatDistance } from "date-fns"
+import { Spinner } from "./components/ui/spinner";
 
 export default function App() {
     const { profile } = useAuth();
@@ -9,20 +11,26 @@ export default function App() {
             <img src={profile.avatar} className="h-6 rounded-full border-2" />
             <a href={`https://bsky.app/profile/${profile.handle}`} target="_blank">@{profile.handle}</a>
         </header>
-        <Markets />
+
+        <div className="grid grid-cols-4">
+            <div className="col-span-1 flex flex-col p-2 gap-2">
+                <MarketList />
+            </div>
+        </div>
     </main>
 }
 
-function Markets() {
+function MarketList() {
     const { markets, loading } = useCumulus();
 
-    if (loading) return <p>Loading Markets...</p>
+    if (loading) return <Spinner />
 
     return <>
-        {markets?.map(m => <div key={m.createdAt} className="p-2">
-            <p className="text-lg">{m.question}</p>
-            <p>{formatDistance(new Date(m.createdAt), new Date(), { addSuffix: true })}</p>
-        </div>
-        )}
+        {markets?.map(m => (<Card key={m.question}>
+            <CardHeader>
+                <CardTitle>{m.question}</CardTitle>
+                <CardDescription>Closes {formatDistance(new Date(m.closesAt), new Date(), { addSuffix: true })}</CardDescription>
+            </CardHeader>
+        </Card>))}
     </>
 }
