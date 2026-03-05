@@ -11,6 +11,7 @@ import { createBet } from "@/core";
 import { useAuth } from "./providers/useAuth";
 import type { ResourceUri } from "@atcute/lexicons";
 import { toast } from "sonner";
+import { queryClient } from "./main";
 
 function parseMarket(market: Market) {
     let [yes, no] = [0, 0];
@@ -53,8 +54,9 @@ export default function App() {
                         cid: market.cid,
                     }, position, profile.did, client)
                     if (res.uri) {
-                        toast(<>Placed {position.toUpperCase()} Bet <a target="_blank" href={`https://pdsls.dev/${res.uri}`}>{res.uri.split("/")[res.uri.split("/").length-1]}</a> at market: <a target="_blank" href={`https://pdsls.dev/${market.uri}`}>{market.rkey}</a></>)
+                        toast(<>Placed {position.toUpperCase()} Bet <a target="_blank" href={`https://pdsls.dev/${res.uri}`}>{res.uri.split("/")[res.uri.split("/").length - 1]}</a> at market: <a target="_blank" href={`https://pdsls.dev/${market.uri}`}>{market.rkey}</a></>)
                     }
+                    queryClient.invalidateQueries({ queryKey: ['markets'] });
                 } catch (e) {
                     toast(e as any)
                 }

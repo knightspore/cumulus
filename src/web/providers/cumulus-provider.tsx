@@ -1,6 +1,5 @@
 import { treaty } from "@elysiajs/eden"
 import { createContext, type PropsWithChildren } from "react";
-import { useAuth } from "./useAuth";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { type CumulusServer } from "@/server/types";
 import type { InferSelectModel } from "drizzle-orm";
@@ -22,10 +21,8 @@ export default function Cumulus({ children }: PropsWithChildren) {
 
     const server = treaty<CumulusServer>(window.location.origin);
 
-    const { profile } = useAuth();
-
     const markets = useQuery({
-        queryKey: ['user', profile.did, 'markets'],
+        queryKey: ['markets'],
         queryFn: async () => {
             const { data, error } = await server.api.markets.get()
             if (error) throw error;
