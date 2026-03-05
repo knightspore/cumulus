@@ -60,7 +60,7 @@ export default function Auth({ children }: PropsWithChildren) {
         </header>
         <div className="flex-1">
             {showLoginForm && <form onSubmit={handleSubmit} className="mt-2 max-w-sm mx-auto flex flex-col gap-2">
-                <Input value={identifier} onChange={(e) => setIdentifier(e.target.value)} autoComplete="username" placeholder="username.com" />
+                <Input value={identifier} onChange={(e) => setIdentifier(e.target.value.toLowerCase().replaceAll(" ", ""))} autoComplete="username" placeholder="username.com" />
                 <Button disabled={isLoginLoading} size="sm" type="submit">
                     {isLoginLoading && <Spinner />}
                     Login
