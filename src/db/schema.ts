@@ -33,9 +33,9 @@ export const resolutionsTable = pgTable("resolutions", {
     marketUri: text().notNull(),
 });
 
-export const marketsRelations = relations(marketsTable, ({ many }) => ({
+export const marketsRelations = relations(marketsTable, ({ many, one }) => ({
     bets: many(betsTable),
-    resolutions: many(resolutionsTable),
+    resolution: one(resolutionsTable),
 }));
 
 export const betsRelations = relations(betsTable, ({ one }) => ({
