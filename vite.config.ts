@@ -1,5 +1,6 @@
 import { defineConfig, type Plugin } from "vite"
 import react from "@vitejs/plugin-react";
+import tailwindcss from '@tailwindcss/vite'
 import path from "path";
 import metadata from "./src/web/public/oauth-client-metadata.json"
 
@@ -33,7 +34,8 @@ export default defineConfig({
     root: path.resolve(__dirname, './src/web'),
     plugins: [
         atProtoOAuthPlugin,
-        react()
+        react(),
+        tailwindcss(),
     ],
     build: {
         outDir: "../../dist",

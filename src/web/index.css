@@ -1,5 +1,41 @@
-* {
-    margin: 0px;
-    padding: 0px;
-    box-sizing: border-box;
+@import "tailwindcss";
+
+@theme {
+    --color-coral-50: #FFF8F9;
+    --color-coral-100: #FEF1F2;
+    --color-coral-200: #FDDCDF;
+    --color-coral-300: #FBC7CC;
+    --color-coral-400: #F99CA6;
+    --color-coral-500: #F67280;
+    --color-coral-600: #DD6773;
+    --color-coral-700: #94444D;
+    --color-coral-800: #6F333A;
+    --color-coral-900: #4A2226;
+
+    --color-shell-50: #F5F7F9;
+    --color-shell-100: #EBEFF2;
+    --color-shell-200: #CDD6DF;
+    --color-shell-300: #AEBECB;
+    --color-shell-400: #728DA4;
+    --color-shell-500: #355C7D;
+    --color-shell-600: #305371;
+    --color-shell-700: #20374B;
+    --color-shell-800: #182938;
+    --color-shell-900: #101C26;
+
+    --color-lipstick-50: #FCF8F9;
+    --color-lipstick-100: #F9F0F3;
+    --color-lipstick-200: #EFDAE0;
+    --color-lipstick-300: #E6C4CE;
+    --color-lipstick-400: #D398A9;
+    --color-lipstick-500: #C06C84;
+    --color-lipstick-600: #AD6177;
+    --color-lipstick-700: #73414F;
+    --color-lipstick-800: #56313B;
+    --color-lipstick-900: #3A2028;
+}
+
+body {
+    color: var(--shell-900);
+    background: var(--shell-50);
 }
