@@ -7,6 +7,6 @@ const app = new Elysia()
     .group("/api", (app) => (
         app.get("/db", () => "test")
     ))
-    .listen(process.env.PORT!)
+    .listen({ port: process.env.PORT!, hostname: "0.0.0.0" })
 
 console.log(`> Server running on ${app.server?.protocol}://${app.server?.hostname}:${app.server?.port}`);
