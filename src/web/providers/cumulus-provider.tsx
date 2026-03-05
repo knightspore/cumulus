@@ -30,7 +30,8 @@ export default function Cumulus({ children }: PropsWithChildren) {
             const { data, error } = await server.api.markets.get()
             if (error) throw error;
             return data as unknown as Market[];
-        }
+        },
+        refetchInterval: 30 * 1000,
     });
 
     return <CumulusContext.Provider value={{ markets }}>{children}</ CumulusContext.Provider>
