@@ -1,5 +1,5 @@
 import type { ActorIdentifier } from "@atcute/lexicons";
-import { createBet, createMarket, createResolution } from "./src/core";
+import { createBet, createMarket } from "./src/core";
 import { Client } from '@atcute/client';
 import { PasswordSession } from "@atcute/password-session";
 import { ComAtprotoRepoStrongRef } from "@atcute/atproto";
@@ -27,8 +27,10 @@ const marketRef: ComAtprotoRepoStrongRef.Main = {
 }
 console.log("marketRef", marketRef);
 
-const betRecord = await createBet(marketRef, "yes", creds.handle, client);
-console.log("bet", betRecord);
+for (let i = 0; i < 30; i++) {
+    const position = Math.random() > 0.5 ? "yes" : "no";
+    const bet = await createBet(marketRef, position, creds.handle, client);
+    console.log(`Seeded bet ${i + 1}/30 (${position})`, bet.uri);
+}
 
-const resolutionRecord = await createResolution(marketRef, "yes", creds.handle, client);
-console.log("resolution", resolutionRecord);
+console.log("Done seeding 30 bets.");
