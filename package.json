@@ -9,7 +9,7 @@
         "db:generate": "bunx drizzle-kit generate",
         "db:migrate": "bunx drizzle-kit migrate",
         "jetstream:dev": "bun --watch src/jetstream/index.ts",
-        "jetstream:build": "bun lex:generate && bun build src/jetstream/index.ts --compile --outfile build/jetstream",
+        "jetstream:build": "bun build src/jetstream/index.ts --compile --outfile build/jetstream",
         "web:dev": "vite",
         "web:build": "vite build",
         "web:preview": "vite preview",
