@@ -1,8 +1,8 @@
 {
-	"client_id": "http://127.0.0.1:8080/oauth-client-metadata.json",
+	"client_id": "https://cumulus-production.up.railway.app/oauth-client-metadata.json",
 	"client_name": "Cumulus",
-	"client_uri": "http://127.0.0.1:8080",
-	"redirect_uris": ["http://127.0.0.1:8080/"],
+	"client_uri": "https://cumulus-production.up.railway.app",
+	"redirect_uris": ["https://cumulus-production.up.railway.app/"],
 	"scope": "atproto transition:generic",
 	"grant_types": ["authorization_code", "refresh_token"],
 	"response_types": ["code"],
