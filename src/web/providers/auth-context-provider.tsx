@@ -4,12 +4,14 @@ import { useQuery } from "@tanstack/react-query";
 import { createContext, type PropsWithChildren } from "react";
 import { useSessionStorage } from "usehooks-ts";
 import { AppBskyActorDefs } from "@atcute/bluesky";
+import type { Client } from "@atcute/client";
 
-export interface AuthContext {
+interface AuthContext {
     profile: AppBskyActorDefs.ProfileViewDetailed,
+    client: Client,
 }
 
-export const AuthContext = createContext<AuthContext|undefined>(undefined);
+export const AuthContext = createContext<AuthContext | undefined>(undefined);
 
 export default function Auth({ children }: PropsWithChildren) {
     const [identifier, setIdentifier] = useSessionStorage<ActorIdentifier | string>("user.did", "");
@@ -37,12 +39,10 @@ export default function Auth({ children }: PropsWithChildren) {
 
     if (isLoading) return <p>Loading...</p>
 
-    // if (error) return <pre>{error.stack}</pre> Disabled so we can login during errors
-
     if (!data) return <form onSubmit={(e) => e.preventDefault()}>
         <input type="text" value={identifier} onChange={(e) => setIdentifier(e.target.value)} />
         <button onClick={() => handleLogin(identifier)}>Login</button>
     </form>
 
-    return <AuthContext.Provider value={{ profile: data.profile }}>{children}</AuthContext.Provider>
+    return <AuthContext.Provider value={{ profile: data.profile, client: data.client }}>{children}</AuthContext.Provider>
 }
