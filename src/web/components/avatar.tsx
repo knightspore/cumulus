@@ -1,7 +1,7 @@
 import type { AppBskyActorDefs } from "@atcute/bluesky";
-import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "../ui/drawer";
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/web/components/ui/drawer";
 import { logout } from "@/web/lib/oauth";
-import { Spinner } from "../ui/spinner";
+import { Spinner } from "@/web/components/ui/spinner";
 
 export default function Avatar({ profile }: { profile?: AppBskyActorDefs.ProfileViewDetailed }) {
     if (!profile) return <Spinner className="text-coral-500" />

@@ -5,7 +5,7 @@ import { createContext, useState, type PropsWithChildren, type SubmitEvent } fro
 import { useSessionStorage } from "usehooks-ts";
 import { AppBskyActorDefs } from "@atcute/bluesky";
 import type { Client } from "@atcute/client";
-import Avatar from "../components/shared/avatar";
+import Avatar from "../components/avatar";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { Spinner } from "../components/ui/spinner";
