@@ -10,6 +10,7 @@ RUN bun lex:generate
 
 FROM deps AS jetstream-builder
 COPY --from=lex-generator /app/generated ./generated
+COPY tsconfig.json package.json ./
 COPY src ./src
 RUN bun run jetstream:build
 
@@ -21,6 +22,7 @@ RUN bun web:build
 
 FROM deps AS server-builder
 COPY --from=lex-generator /app/generated ./generated
+COPY tsconfig.json package.json ./
 COPY src ./src
 RUN bun run server:build
 

@@ -3,7 +3,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { ZaCoCiaranCumulusBet, ZaCoCiaranCumulusMarket, ZaCoCiaranCumulusResolution } from '../../generated/typescript';
 import { is, type ActorIdentifier } from '@atcute/lexicons';
 import type { CreateCommit, DeleteCommit } from '@atcute/jetstream';
-import * as schema from "./schema"
+import * as schema from "../db/schema"
 import { eq } from 'drizzle-orm';
 
 export const db = drizzle(process.env.DATABASE_URL!, { schema });

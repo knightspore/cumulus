@@ -1,6 +1,6 @@
 import { type CreateCommit, type DeleteCommit, type UpdateCommit } from "@atcute/jetstream"
 import { jetstream } from "./config";
-import { tryCreateBet, tryCreateMarket, tryCreateResolution, tryDeleteBet, tryDeleteMarket, tryDeleteResolution } from "../db/index.ts";
+import { tryCreateBet, tryCreateMarket, tryCreateResolution, tryDeleteBet, tryDeleteMarket, tryDeleteResolution } from "@/core/api"
 import type { ActorIdentifier } from "@atcute/lexicons";
 
 console.log(`> Connecting to ${jetstream.getOptions().url} and listening for events from ${jetstream.getOptions().wantedCollections?.join(', ')}`);
