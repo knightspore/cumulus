@@ -1,7 +1,8 @@
-import { type CreateCommit, type DeleteCommit, type UpdateCommit } from "@atcute/jetstream"
+import { type CreateCommit, type DeleteCommit } from "@atcute/jetstream"
 import { tryCreateBet, tryCreateMarket, tryCreateResolution, tryDeleteBet, tryDeleteMarket, tryDeleteResolution } from "@/core/api"
-import type { ActorIdentifier } from "@atcute/lexicons";
+import type { Did } from "@atcute/lexicons";
 import { JetstreamSubscription } from "@atcute/jetstream"
+import { createUri } from "@/core/utils";
 
 const URL = "wss://jetstream2.us-east.bsky.network";
 const COLLECTIONS = ['za.co.ciaran.cumulus.*']
@@ -16,18 +17,15 @@ export const jetstream = new JetstreamSubscription({
 
 console.log(`> Connecting to ${jetstream.getOptions().url} and listening for events from ${jetstream.getOptions().wantedCollections?.join(', ')}`);
 
-async function handleCreate(did: ActorIdentifier, commit: CreateCommit) {
-    console.log("Handling Create Commit:", commit.rkey);
+async function handleCreate(did: Did, commit: CreateCommit) {
+    console.log("Handling Create Commit:", createUri(did, commit.collection, commit.rkey));
     tryCreateMarket(did, commit);
     tryCreateBet(did, commit);
     tryCreateResolution(did, commit);
 }
 
-async function handleUpdate(did: ActorIdentifier, commit: UpdateCommit) {
-    console.log("Handling Update Commit:", commit.rkey);
-}
-
-async function handleDelete(did: ActorIdentifier, commit: DeleteCommit) {
+async function handleDelete(did: Did, commit: DeleteCommit) {
+    console.log("Handling Delete Commit:", createUri(did, commit.collection, commit.rkey));
     tryDeleteMarket(did, commit);
     tryDeleteBet(did, commit);
     tryDeleteResolution(did, commit);
@@ -36,7 +34,6 @@ async function handleDelete(did: ActorIdentifier, commit: DeleteCommit) {
 for await (const event of jetstream) {
     if (event.kind === "commit") switch (event.commit.operation) {
         case "create": handleCreate(event.did, event.commit); break;
-        case "update": handleUpdate(event.did, event.commit); break;
         case "delete": handleDelete(event.did, event.commit); break;
         default: throw new Error("Unknown Commit Type: " + event);
     }
