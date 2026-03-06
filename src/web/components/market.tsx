@@ -27,7 +27,7 @@ export default function Market({ market }: Props) {
         try {
             setLoading(market.cid)
             const res = await createBet({ uri: market.uri as ResourceUri, cid: market.cid }, position, profile.did, client)
-            if (res.uri) toast.success(<>Placed {position.toUpperCase()} Bet <a target="_blank" href={`https://pdsls.dev/${res.uri}`}>{res.uri.split("/")[res.uri.split("/").length - 1]}</a> at market: <a target="_blank" href={`https://pdsls.dev/${market.uri}`}>{market.rkey}</a></>)
+            if (res.uri) toast.success(<>Placed {position.toUpperCase()} Bet <a target="_blank" href={`https://pdsls.dev/${res.uri}`}>{res.uri}</a> on market <a target="_blank" href={`https://pdsls.dev/${market.uri}`}>{market.uri}</a></>)
             queryClient.invalidateQueries({ queryKey: ['markets'] });
         } catch (e) {
             toast.error((e as any).message)
