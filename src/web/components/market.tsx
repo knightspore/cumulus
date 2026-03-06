@@ -40,7 +40,7 @@ export default function Market({ market }: Props) {
 
         <div className="absolute inset-0 p-2">
             <h2 className="text-xl font-bold flex gap-1 items-center">{market.question}</h2>
-            <p>Closes: {readableDateDiff(market.createdAt)}</p>
+            <p>Closes: {readableDateDiff(market.closesAt)}</p>
             <p>Positions: {positionCount}</p>
         </div>
 

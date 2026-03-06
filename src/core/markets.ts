@@ -1,4 +1,5 @@
 import type { Market } from "@/web/providers/cumulus-provider"
+import { formatDistance, formatDuration, getUnixTime } from "date-fns";
 
 function lsmr(q1: number, q2: number, b: number) {
     return 1 / (1 + Math.exp((q2 - q1) / b))
@@ -25,5 +26,7 @@ export function parseMarket(market: Market) {
     const [yesPrice, noPrice] = getPrices(countYes, countNo, market.liquidity);
     const positionCount = market.bets?.length ?? 0;
 
-    return { countYes, countNo, bets, yesPrice, noPrice, positionCount }
+    const marketOpenForDays = (getUnixTime(market.closesAt) - getUnixTime(market.createdAt)) / 60 / 60 / 24;
+
+    return { countYes, countNo, bets, yesPrice, noPrice, positionCount, days: marketOpenForDays }
 }
