@@ -1,12 +1,12 @@
 import { useMemo, useState } from "react";
-import type { Market } from "../providers/cumulus-provider"
+import type { Market } from "@/web/providers/cumulus-provider"
 import { createBet } from "@/core/atproto-api";
 import type { ResourceUri } from "@atcute/lexicons";
 import { toast } from "sonner";
-import { useAuth } from "../providers/useAuth";
-import { ChartContainer } from "./ui/chart";
+import { useAuth } from "@/web/hooks/useAuth";
+import { ChartContainer } from "@/web/components/ui/chart";
 import { Line, LineChart, Tooltip } from "recharts";
-import { Button } from "./ui/button";
+import { Button } from "@/web/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { CheckCircle2Icon, XCircleIcon } from "lucide-react";
 import { parseMarket } from "@/core/markets";

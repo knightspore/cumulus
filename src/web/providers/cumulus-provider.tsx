@@ -3,12 +3,12 @@ import { createContext, type PropsWithChildren } from "react";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { type CumulusServer } from "@/server/types";
 import type { InferSelectModel } from "drizzle-orm";
-import * as schema from "../../db/schema"
+import type { betsTable, marketsTable, resolutionsTable } from "@/db";
 
 
-export type Market = InferSelectModel<typeof schema.marketsTable> & {
-    bets?: InferSelectModel<typeof schema.betsTable>[],
-    resolution?: InferSelectModel<typeof schema.resolutionsTable>,
+export type Market = InferSelectModel<typeof marketsTable> & {
+    bets?: InferSelectModel<typeof betsTable>[],
+    resolution?: InferSelectModel<typeof resolutionsTable>,
 }
 
 export interface CumulusContext {

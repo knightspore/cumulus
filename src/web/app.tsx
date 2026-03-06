@@ -1,7 +1,7 @@
-import { useCumulus } from "./providers/useCumulus";
-import { Spinner } from "./components/ui/spinner";
-import Market from "./components/market";
-import { AddMarket } from "./components/add-market";
+import { useCumulus } from "@/web/hooks/useCumulus";
+import { Spinner } from "@/web/components/ui/spinner";
+import Market from "@/web/components/market";
+import { AddMarket } from "@/web/components/add-market";
 
 
 export default function App() {
