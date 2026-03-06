@@ -4,14 +4,67 @@ import { ZaCoCiaranCumulusBet, ZaCoCiaranCumulusMarket, ZaCoCiaranCumulusResolut
 import { is, type ActorIdentifier } from '@atcute/lexicons';
 import type { CreateCommit, DeleteCommit } from '@atcute/jetstream';
 import * as schema from "../db/schema"
+import { DEFAULT_MARKET_COLS, DEFAULT_BET_COLS, DEFAULT_RESOLUTION_COLS } from '../db/schema';
 import { eq } from 'drizzle-orm';
 
+
 export const db = drizzle(process.env.DATABASE_URL!, { schema });
+
+export async function tryListMarkets() {
+    return await db.query.marketsTable.findMany({
+        columns: DEFAULT_MARKET_COLS,
+        orderBy: (markets, { desc }) => [desc(markets.createdAt)],
+        with: {
+            bets: { columns: DEFAULT_BET_COLS },
+            resolution: { columns: DEFAULT_RESOLUTION_COLS }
+        },
+    })
+}
+
+export async function tryFindMarket(uri: string) {
+    return await db.query.marketsTable.findFirst({
+        columns: DEFAULT_MARKET_COLS,
+        where: eq(schema.marketsTable.uri, uri),
+        with: {
+            bets: { columns: DEFAULT_BET_COLS },
+            resolution: { columns: DEFAULT_RESOLUTION_COLS }
+        }
+    })
+}
+
+export async function tryFindMarketBets(uri: string) {
+    return await db.query.betsTable.findMany({
+        columns: DEFAULT_BET_COLS,
+        where: eq(schema.betsTable.marketUri, uri),
+        orderBy: (bets, { desc }) => [desc(bets.createdAt)],
+        with: {
+            market: {
+                columns: DEFAULT_MARKET_COLS,
+                with: { resolution: { columns: DEFAULT_RESOLUTION_COLS } }
+            }
+        }
+    })
+}
+
+export async function tryFindMarketResolutions(uri: string) {
+    return await db.query.resolutionsTable.findFirst({
+        columns: DEFAULT_RESOLUTION_COLS,
+        where: eq(schema.resolutionsTable.marketUri, uri),
+        orderBy: (resolutions, { desc }) => [desc(resolutions.createdAt)],
+        with: {
+            market: {
+                columns: DEFAULT_MARKET_COLS,
+                with: { bets: { columns: DEFAULT_BET_COLS } }
+            }
+        }
+    })
+}
 
 export async function tryCreateMarket(did: ActorIdentifier, { record, rev, rkey, cid }: CreateCommit) {
     if (is(ZaCoCiaranCumulusMarket.mainSchema, record)) {
         const uri = `at://${did}/${record.$type}/${rkey}`;
         console.log("> Creating Market:", uri);
+
         const { question, liquidity } = record;
         const [closesAt, createdAt] = [new Date(record.closesAt), new Date(record.createdAt)];
 

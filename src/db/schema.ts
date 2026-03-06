@@ -21,17 +21,43 @@ export const marketsTable = pgTable("markets", {
     closesAt: timestamp({ withTimezone: true }).notNull(),
 });
 
+export const DEFAULT_MARKET_COLS = {
+    uri: true,
+    did: true,
+    cid: true,
+    question: true,
+    liquidity: true,
+    closesAt: true,
+    createdAt: true,
+}
+
 export const betsTable = pgTable("bets", {
     ...SHARED_SCHEMA,
     position: betPositionEnum().notNull(),
     marketUri: text().notNull(),
 });
 
+export const DEFAULT_BET_COLS = {
+    uri: true,
+    did: true,
+    cid: true,
+    position: true,
+    createdAt: true,
+}
+
 export const resolutionsTable = pgTable("resolutions", {
     ...SHARED_SCHEMA,
     answer: resolutionAnswerEnum().notNull(),
     marketUri: text().notNull(),
 });
+
+export const DEFAULT_RESOLUTION_COLS = {
+    uri: true,
+    did: true,
+    cid: true,
+    answer: true,
+    createdAt: true,
+}
 
 export const marketsRelations = relations(marketsTable, ({ many, one }) => ({
     bets: many(betsTable),
