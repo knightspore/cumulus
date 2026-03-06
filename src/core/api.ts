@@ -1,14 +1,10 @@
 import 'dotenv/config';
-import { drizzle } from "drizzle-orm/node-postgres";
 import { ZaCoCiaranCumulusBet, ZaCoCiaranCumulusMarket, ZaCoCiaranCumulusResolution } from '../../generated/typescript';
 import { is, type ActorIdentifier } from '@atcute/lexicons';
 import type { CreateCommit, DeleteCommit } from '@atcute/jetstream';
-import * as schema from "../db/schema"
-import { DEFAULT_MARKET_COLS, DEFAULT_BET_COLS, DEFAULT_RESOLUTION_COLS } from '../db/schema';
+import { DEFAULT_MARKET_COLS, DEFAULT_BET_COLS, DEFAULT_RESOLUTION_COLS, marketsTable, betsTable, resolutionsTable } from '@/db'
 import { eq } from 'drizzle-orm';
-
-
-export const db = drizzle(process.env.DATABASE_URL!, { schema });
+import { db } from '@/db';
 
 export async function tryListMarkets() {
     return await db.query.marketsTable.findMany({
@@ -24,7 +20,7 @@ export async function tryListMarkets() {
 export async function tryFindMarket(uri: string) {
     return await db.query.marketsTable.findFirst({
         columns: DEFAULT_MARKET_COLS,
-        where: eq(schema.marketsTable.uri, uri),
+        where: eq(marketsTable.uri, uri),
         with: {
             bets: { columns: DEFAULT_BET_COLS },
             resolution: { columns: DEFAULT_RESOLUTION_COLS }
@@ -35,7 +31,7 @@ export async function tryFindMarket(uri: string) {
 export async function tryFindMarketBets(uri: string) {
     return await db.query.betsTable.findMany({
         columns: DEFAULT_BET_COLS,
-        where: eq(schema.betsTable.marketUri, uri),
+        where: eq(betsTable.marketUri, uri),
         orderBy: (bets, { desc }) => [desc(bets.createdAt)],
         with: {
             market: {
@@ -49,7 +45,7 @@ export async function tryFindMarketBets(uri: string) {
 export async function tryFindMarketResolutions(uri: string) {
     return await db.query.resolutionsTable.findFirst({
         columns: DEFAULT_RESOLUTION_COLS,
-        where: eq(schema.resolutionsTable.marketUri, uri),
+        where: eq(resolutionsTable.marketUri, uri),
         orderBy: (resolutions, { desc }) => [desc(resolutions.createdAt)],
         with: {
             market: {
@@ -68,11 +64,11 @@ export async function tryCreateMarket(did: ActorIdentifier, { record, rev, rkey,
         const { question, liquidity } = record;
         const [closesAt, createdAt] = [new Date(record.closesAt), new Date(record.createdAt)];
 
-        const marketData: typeof schema.marketsTable.$inferInsert = {
+        const marketData: typeof marketsTable.$inferInsert = {
             uri, did, rev, rkey, cid, question, liquidity, closesAt, record, createdAt,
         };
 
-        await db.insert(schema.marketsTable).values(marketData);
+        await db.insert(marketsTable).values(marketData);
         console.log("> Created Market!");
     }
 }
@@ -80,7 +76,7 @@ export async function tryCreateMarket(did: ActorIdentifier, { record, rev, rkey,
 export async function tryDeleteMarket(did: ActorIdentifier, commit: DeleteCommit) {
     const uri = `at://${did}/${commit.collection}/${commit.rkey}`;
     console.log("> Deleting Market:", uri);
-    await db.delete(schema.marketsTable).where(eq(schema.marketsTable.uri, uri))
+    await db.delete(marketsTable).where(eq(marketsTable.uri, uri))
 }
 
 export async function tryCreateBet(did: ActorIdentifier, { record, rev, rkey, cid }: CreateCommit) {
@@ -90,11 +86,11 @@ export async function tryCreateBet(did: ActorIdentifier, { record, rev, rkey, ci
         const { position, market } = record;
         const createdAt = new Date(record.createdAt);
 
-        const betData: typeof schema.betsTable.$inferInsert = {
+        const betData: typeof betsTable.$inferInsert = {
             uri, did, rev, rkey, cid, position, marketUri: market.uri, record, createdAt
         }
 
-        await db.insert(schema.betsTable).values(betData);
+        await db.insert(betsTable).values(betData);
         console.log("> Created Bet!");
     }
 }
@@ -102,7 +98,7 @@ export async function tryCreateBet(did: ActorIdentifier, { record, rev, rkey, ci
 export async function tryDeleteBet(did: ActorIdentifier, commit: DeleteCommit) {
     const uri = `at://${did}/${commit.collection}/${commit.rkey}`;
     console.log("> Deleting Bet:", uri);
-    await db.delete(schema.betsTable).where(eq(schema.betsTable.uri, uri))
+    await db.delete(betsTable).where(eq(betsTable.uri, uri))
 }
 
 export async function tryCreateResolution(did: ActorIdentifier, { record, rev, rkey, cid }: CreateCommit) {
@@ -112,11 +108,11 @@ export async function tryCreateResolution(did: ActorIdentifier, { record, rev, r
         const { answer, market } = record;
         const createdAt = new Date(record.createdAt);
 
-        const resolutionData: typeof schema.resolutionsTable.$inferInsert = {
+        const resolutionData: typeof resolutionsTable.$inferInsert = {
             uri, did, rev, rkey, cid, answer, marketUri: market.uri, record, createdAt
         }
 
-        await db.insert(schema.resolutionsTable).values(resolutionData);
+        await db.insert(resolutionsTable).values(resolutionData);
         console.log("> Created Resolution!");
     }
 }
@@ -124,5 +120,5 @@ export async function tryCreateResolution(did: ActorIdentifier, { record, rev, r
 export async function tryDeleteResolution(did: ActorIdentifier, commit: DeleteCommit) {
     const uri = `at://${did}/${commit.collection}/${commit.rkey}`;
     console.log("> Deleting Resolution:", uri);
-    await db.delete(schema.resolutionsTable).where(eq(schema.resolutionsTable.uri, uri))
+    await db.delete(resolutionsTable).where(eq(resolutionsTable.uri, uri))
 }

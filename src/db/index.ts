@@ -1,5 +1,6 @@
 import { text, integer, json, pgTable, timestamp, pgEnum } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
+import { drizzle } from "drizzle-orm/node-postgres";
 
 const SHARED_SCHEMA = {
     uri: text().primaryKey().notNull(),
@@ -77,3 +78,14 @@ export const resolutionsRelations = relations(resolutionsTable, ({ one }) => ({
         references: [marketsTable.uri],
     }),
 }));
+
+export const db = drizzle(process.env.DATABASE_URL!, {
+    schema: {
+        marketsTable,
+        betsTable,
+        resolutionsTable,
+        marketsRelations,
+        betsRelations,
+        resolutionsRelations
+    }
+});
