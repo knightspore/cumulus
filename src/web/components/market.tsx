@@ -9,7 +9,7 @@ import { ChartContainer } from "./ui/chart";
 import { Line, LineChart, Tooltip } from "recharts";
 import { Button } from "./ui/button";
 import { useQueryClient } from "@tanstack/react-query";
-import { CheckCircle2Icon, XCircleIcon } from "lucide-react";
+import { BarChart, CheckCircle2Icon, XCircleIcon } from "lucide-react";
 
 type Props = {
     market: Market
@@ -35,7 +35,7 @@ export default function Market({ market }: Props) {
         }
     }
 
-    return <div key={market.cid} className="relative uppercase bg-radial-[at_80%_200%] from-coral-500 bg-slate-300 via-coral-50">
+    return <div key={market.cid} className="rounded-lg relative uppercase bg-radial-[at_80%_200%] from-coral-500 bg-slate-300 via-coral-50">
 
         <div className="absolute inset-0 p-2">
             <h2 className="text-xl font-bold flex gap-1 items-center">{market.question}</h2>
@@ -46,18 +46,17 @@ export default function Market({ market }: Props) {
         <ChartContainer config={{ yes: { label: "Yes" }, no: { label: "No" } }}>
             <LineChart data={mappedBets}>
                 <Tooltip />
-                <Line
-                    dataKey="yes" stroke="var(--color-shell-600)" />
+                <Line dataKey="yes" stroke="var(--color-shell-600)" />
                 <Line dataKey="no" stroke="var(--color-coral-600)" />
             </LineChart>
         </ChartContainer>
 
-        <div className="absolute bottom-0 right-0 p-2 flex gap-2">
-            <Button onClick={() => handleBuy("yes")} disabled={loading === market.cid}>
-                <CheckCircle2Icon /> YES @ {yesprice}
+        <div className="absolute bottom-0 right-0 p-1 flex gap-2">
+            <Button size="sm" onClick={() => handleBuy("yes")} disabled={loading === market.cid}>
+                <CheckCircle2Icon /> YES {yesprice}
             </Button>
-            <Button onClick={() => handleBuy("no")} variant="secondary" disabled={loading === market.cid}>
-                <XCircleIcon />NO @ {noprice}
+            <Button size="sm" onClick={() => handleBuy("no")} variant="secondary" disabled={loading === market.cid}>
+                <XCircleIcon />NO {noprice}
             </Button>
         </div>
 

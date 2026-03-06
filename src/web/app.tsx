@@ -9,7 +9,7 @@ export default function App() {
 
     if (markets.isLoading) return <div className="p-4"><Spinner className='m-auto' /></div>
 
-    return <div className="grid md:grid-cols-2 divide-shell-900 divide-y-2">
+    return <div className="grid p-2 md:grid-cols-2 gap-2">
         {markets.data?.map(market => <Market key={market.uri} market={market} />)}
         <AddMarket />
     </div>

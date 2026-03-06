@@ -9,7 +9,6 @@ import Avatar from "../components/shared/avatar";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { Spinner } from "../components/ui/spinner";
-import { DrawerPortal } from "../components/ui/drawer";
 
 interface AuthContext {
     profile: AppBskyActorDefs.ProfileViewDetailed,
@@ -54,12 +53,12 @@ export default function Auth({ children }: PropsWithChildren) {
     const showLoginForm = !showLoader && !data && !isLoading;
     const showAppContent = !showLoginForm && data && !isLoading;
 
-    return <main className="subpixel-antialiased text-shell-900 bg-shell-50 flex flex-col min-h-screen">
+    return <main className="subpixel-antialiased text-shell-900 bg-shell-50 flex flex-col h-screen">
         <header className="bg-shell-900 text-shell-50 p-2 h-10 flex justify-between gap-2 items-center">
             <h1 className="text-coral-500 justify-self-start uppercase text-xs font-extrabold">Cumulus</h1>
-            <div className="flex items-center gap-2">{showLoader ? <Spinner /> : <Avatar profile={data?.profile} />}</div>
+            <div className="flex items-center gap-2"><Avatar profile={data?.profile} /></div>
         </header>
-        <div className="flex-1">
+        <div className="flex-1 overflow-y-scroll">
             {showLoginForm && <form onSubmit={handleSubmit} className="mt-2 max-w-sm mx-auto flex flex-col gap-2">
                 <Input value={identifier} onChange={(e) => setIdentifier(e.target.value.toLowerCase().replaceAll(" ", ""))} autoComplete="username" placeholder="username.com" />
                 <Button disabled={isLoginLoading} size="sm" type="submit">
