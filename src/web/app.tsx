@@ -1,6 +1,7 @@
 import { useCumulus } from "./providers/useCumulus";
 import { Spinner } from "./components/ui/spinner";
 import Market from "./components/market";
+import { AddMarket } from "./components/add-market";
 
 
 export default function App() {
@@ -10,5 +11,6 @@ export default function App() {
 
     return <div className="grid md:grid-cols-2 gap-2">
         {markets.data?.map(market => <Market key={market.uri} market={market} />)}
+        <AddMarket />
     </div>
 }

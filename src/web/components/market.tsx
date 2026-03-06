@@ -9,6 +9,7 @@ import { ChartContainer } from "./ui/chart";
 import { Line, LineChart, Tooltip } from "recharts";
 import { Button } from "./ui/button";
 import { useQueryClient } from "@tanstack/react-query";
+import { CheckCircle2Icon, XCircleIcon } from "lucide-react";
 
 type Props = {
     market: Market
@@ -18,17 +19,17 @@ export default function Market({ market }: Props) {
 
     const { profile, client } = useAuth()
     const [loading, setLoading] = useState<string | boolean>(false);
-    const { yesprice, noprice, closesAt, mappedBets, positions } = useMemo(() => parseMarket(market), [market.did]);
+    const { yesprice, noprice, closesAt, mappedBets, positions } = useMemo(() => parseMarket(market), [market]);
     const queryClient = useQueryClient();
 
     async function handleBuy(position: "yes" | "no") {
         try {
             setLoading(market.cid)
             const res = await createBet({ uri: market.uri as ResourceUri, cid: market.cid }, position, profile.did, client)
-            if (res.uri) toast(<>Placed {position.toUpperCase()} Bet <a target="_blank" href={`https://pdsls.dev/${res.uri}`}>{res.uri.split("/")[res.uri.split("/").length - 1]}</a> at market: <a target="_blank" href={`https://pdsls.dev/${market.uri}`}>{market.rkey}</a></>)
+            if (res.uri) toast.success(<>Placed {position.toUpperCase()} Bet <a target="_blank" href={`https://pdsls.dev/${res.uri}`}>{res.uri.split("/")[res.uri.split("/").length - 1]}</a> at market: <a target="_blank" href={`https://pdsls.dev/${market.uri}`}>{market.rkey}</a></>)
             queryClient.invalidateQueries({ queryKey: ['markets'] });
         } catch (e) {
-            toast(e as any)
+            toast.error((e as any).message)
         } finally {
             setLoading(false);
         }
@@ -52,8 +53,12 @@ export default function Market({ market }: Props) {
         </ChartContainer>
 
         <div className="absolute bottom-0 right-0 p-2 flex gap-2">
-            <Button onClick={() => handleBuy("yes")} disabled={loading === market.cid}>YES {yesprice}</Button>
-            <Button onClick={() => handleBuy("no")} variant="secondary" disabled={loading === market.cid}>NO {noprice}</Button>
+            <Button onClick={() => handleBuy("yes")} disabled={loading === market.cid}>
+                <CheckCircle2Icon /> YES @ {yesprice}
+            </Button>
+            <Button onClick={() => handleBuy("no")} variant="secondary" disabled={loading === market.cid}>
+                <XCircleIcon />NO @ {noprice}
+            </Button>
         </div>
 
     </div>

@@ -9,6 +9,7 @@ import Avatar from "../components/shared/avatar";
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { Spinner } from "../components/ui/spinner";
+import { DrawerPortal } from "../components/ui/drawer";
 
 interface AuthContext {
     profile: AppBskyActorDefs.ProfileViewDetailed,
