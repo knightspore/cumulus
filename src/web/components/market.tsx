@@ -35,7 +35,7 @@ export default function Market({ market }: Props) {
         }
     }
 
-    return <div key={market.cid} className="relative uppercase bg-radial-[at_80%_200%] from-coral-500 via-coral-50">
+    return <div key={market.cid} className="relative uppercase bg-radial-[at_80%_200%] from-coral-500 bg-slate-300 via-coral-50">
 
         <div className="absolute inset-0 p-2">
             <h2 className="text-xl font-bold flex gap-1 items-center">{market.question}</h2>
