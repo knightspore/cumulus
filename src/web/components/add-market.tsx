@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Spinner } from "./ui/spinner";
 import { useAuth } from "../providers/useAuth";
-import { createMarket } from "@/core";
+import { createMarket } from "@/core/atproto-api";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 

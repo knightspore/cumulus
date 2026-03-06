@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import type { Market } from "../providers/cumulus-provider"
-import { createBet } from "@/core";
+import { createBet } from "@/core/atproto-api";
 import type { ResourceUri } from "@atcute/lexicons";
 import { toast } from "sonner";
 import { useAuth } from "../providers/useAuth";
