@@ -1,5 +1,4 @@
 import { useMemo, useState } from "react";
-import { parseMarket } from "../lib/utils"
 import type { Market } from "../providers/cumulus-provider"
 import { createBet } from "@/core";
 import type { ResourceUri } from "@atcute/lexicons";
@@ -9,7 +8,9 @@ import { ChartContainer } from "./ui/chart";
 import { Line, LineChart, Tooltip } from "recharts";
 import { Button } from "./ui/button";
 import { useQueryClient } from "@tanstack/react-query";
-import { BarChart, CheckCircle2Icon, XCircleIcon } from "lucide-react";
+import { CheckCircle2Icon, XCircleIcon } from "lucide-react";
+import { parseMarket } from "@/core/markets";
+import { readableDateDiff } from "@/core/utils";
 
 type Props = {
     market: Market
@@ -19,7 +20,7 @@ export default function Market({ market }: Props) {
 
     const { profile, client } = useAuth()
     const [loading, setLoading] = useState<string | boolean>(false);
-    const { yesprice, noprice, closesAt, mappedBets, positions } = useMemo(() => parseMarket(market), [market]);
+    const { yesPrice, noPrice, bets, positionCount } = useMemo(() => parseMarket(market), [market]);
     const queryClient = useQueryClient();
 
     async function handleBuy(position: "yes" | "no") {
@@ -39,24 +40,24 @@ export default function Market({ market }: Props) {
 
         <div className="absolute inset-0 p-2">
             <h2 className="text-xl font-bold flex gap-1 items-center">{market.question}</h2>
-            <p>Closes: {closesAt}</p>
-            <p>Positions: {positions}</p>
+            <p>Closes: {readableDateDiff(market.createdAt)}</p>
+            <p>Positions: {positionCount}</p>
         </div>
 
-        <ChartContainer config={{ yes: { label: "Yes" }, no: { label: "No" } }}>
-            <LineChart data={mappedBets}>
+        <ChartContainer config={{ countYes: { label: "Yes" }, countNo: { label: "No" } }}>
+            <LineChart data={bets}>
                 <Tooltip />
-                <Line dataKey="yes" stroke="var(--color-shell-600)" />
-                <Line dataKey="no" stroke="var(--color-coral-600)" />
+                <Line dataKey="countYes" stroke="var(--color-shell-600)" />
+                <Line dataKey="countNo" stroke="var(--color-coral-600)" />
             </LineChart>
         </ChartContainer>
 
         <div className="absolute bottom-0 right-0 p-1 flex gap-2">
             <Button size="sm" onClick={() => handleBuy("yes")} disabled={loading === market.cid}>
-                <CheckCircle2Icon /> YES {yesprice}
+                <CheckCircle2Icon /> YES {yesPrice}
             </Button>
             <Button size="sm" onClick={() => handleBuy("no")} variant="secondary" disabled={loading === market.cid}>
-                <XCircleIcon />NO {noprice}
+                <XCircleIcon />NO {noPrice}
             </Button>
         </div>
 
