@@ -49,7 +49,7 @@ export function calculateScoreAndRep(markets: Array<ReturnType<typeof parseMarke
             if (market.did === did) rep++;
             if (bet.did === did) {
                 if (bet.position === answer) score += (1.0 - parseFloat(bet.costPaid))
-                else if (bet.position === answer) score -= parseFloat(bet.costPaid)
+                else if (bet.position !== answer) score -= parseFloat(bet.costPaid)
             }
         }
     }
