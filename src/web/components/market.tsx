@@ -20,7 +20,7 @@ export default function Market({ market }: Props) {
 
     const { profile, client } = useAuth()
     const [loading, setLoading] = useState<string | boolean>(false);
-    const { yesPrice, noPrice, bets, positionCount, open } = useMemo(() => parseMarket(market), [market]);
+    const { yesPrice, noPrice, bets, positionCount, isMarketOpen, canPlaceBets } = useMemo(() => parseMarket(market), [market]);
     const queryClient = useQueryClient();
 
     async function handleBuy(position: "yes" | "no") {
@@ -36,14 +36,16 @@ export default function Market({ market }: Props) {
         }
     }
 
+    console.log(market)
+
     return <div key={market.cid} className="rounded-lg relative uppercase bg-radial-[at_80%_200%] from-coral-500 bg-slate-300 via-coral-50">
 
         <div className="absolute inset-0 p-2">
             <h2 className="text-xl font-bold flex gap-1 items-center">{market.question}</h2>
-            <p>{open ? "Closes" : "Closed"}: {readableDateDiff(market.closesAt)}</p>
+            <p>{isMarketOpen ? "Closes" : "Closed"}: {readableDateDiff(market.closesAt)}</p>
             <p>Positions: {positionCount}</p>
-            {!open && (market.resolution
-                ? <p>Resolution: {market.resolution?.answer}</p>
+            {!canPlaceBets && (market.resolution
+                ? <p>Resolution: {market.resolution?.answer.toUpperCase()}</p>
                 : <p>Resolution: {'<PENDING>'}</p>
             )}
         </div>
@@ -51,12 +53,12 @@ export default function Market({ market }: Props) {
         <ChartContainer config={{ countYes: { label: "Yes" }, countNo: { label: "No" } }}>
             <LineChart data={bets}>
                 <Tooltip />
-                <Line dataKey="countYes" stroke={open ? "var(--color-shell-600)" : "var(--color-shell-300)"} />
-                <Line dataKey="countNo" stroke={open ? "var(--color-coral-600)" : "var(--color-coral-300)"} />
+                <Line dataKey="countYes" stroke={isMarketOpen ? "var(--color-shell-600)" : "var(--color-shell-300)"} />
+                <Line dataKey="countNo" stroke={isMarketOpen ? "var(--color-coral-600)" : "var(--color-coral-300)"} />
             </LineChart>
         </ChartContainer>
 
-        {open &&
+        {canPlaceBets &&
             <div className="absolute bottom-0 right-0 p-1 flex gap-2">
                 <Button size="sm" onClick={() => handleBuy("yes")} disabled={loading === market.cid}>
                     <CheckCircle2Icon /> YES {yesPrice}
