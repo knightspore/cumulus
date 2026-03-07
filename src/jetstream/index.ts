@@ -35,6 +35,6 @@ for await (const event of jetstream) {
     if (event.kind === "commit") switch (event.commit.operation) {
         case "create": handleCreate(event.did, event.commit); break;
         case "delete": handleDelete(event.did, event.commit); break;
-        default: throw new Error("Unknown Commit Type: " + event);
+        default: break;
     }
 }
