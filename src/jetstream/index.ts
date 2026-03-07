@@ -33,8 +33,8 @@ async function handleDelete(did: Did, commit: DeleteCommit) {
 
 for await (const event of jetstream) {
     if (event.kind === "commit") switch (event.commit.operation) {
-        case "create": handleCreate(event.did, event.commit); break;
-        case "delete": handleDelete(event.did, event.commit); break;
+        case "create": await handleCreate(event.did, event.commit); break;
+        case "delete": await handleDelete(event.did, event.commit); break;
         default: break;
     }
 }
