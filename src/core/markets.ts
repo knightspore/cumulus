@@ -25,8 +25,8 @@ export function parseMarket(market: Market) {
 
     const [yesPrice, noPrice] = getPrices(countYes, countNo, market.liquidity);
     const positionCount = market.bets?.length ?? 0;
+    const days = (getUnixTime(market.closesAt) - getUnixTime(market.createdAt)) / 60 / 60 / 24;
+    const open = new Date() < market.closesAt;
 
-    const marketOpenForDays = (getUnixTime(market.closesAt) - getUnixTime(market.createdAt)) / 60 / 60 / 24;
-
-    return { countYes, countNo, bets, yesPrice, noPrice, positionCount, days: marketOpenForDays }
+    return { countYes, countNo, bets, yesPrice, noPrice, positionCount, days, open }
 }

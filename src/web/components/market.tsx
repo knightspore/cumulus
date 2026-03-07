@@ -20,7 +20,7 @@ export default function Market({ market }: Props) {
 
     const { profile, client } = useAuth()
     const [loading, setLoading] = useState<string | boolean>(false);
-    const { yesPrice, noPrice, bets, positionCount } = useMemo(() => parseMarket(market), [market]);
+    const { yesPrice, noPrice, bets, positionCount, open } = useMemo(() => parseMarket(market), [market]);
     const queryClient = useQueryClient();
 
     async function handleBuy(position: "yes" | "no") {
@@ -40,26 +40,31 @@ export default function Market({ market }: Props) {
 
         <div className="absolute inset-0 p-2">
             <h2 className="text-xl font-bold flex gap-1 items-center">{market.question}</h2>
-            <p>Closes: {readableDateDiff(market.closesAt)}</p>
+            <p>{open ? "Closes" : "Closed"}: {readableDateDiff(market.closesAt)}</p>
             <p>Positions: {positionCount}</p>
+            {!open && (market.resolution
+                ? <p>Resolution: {market.resolution?.answer}</p>
+                : <p>Resolution: {'<PENDING>'}</p>
+            )}
         </div>
 
         <ChartContainer config={{ countYes: { label: "Yes" }, countNo: { label: "No" } }}>
             <LineChart data={bets}>
                 <Tooltip />
-                <Line dataKey="countYes" stroke="var(--color-shell-600)" />
-                <Line dataKey="countNo" stroke="var(--color-coral-600)" />
+                <Line dataKey="countYes" stroke={open ? "var(--color-shell-600)" : "var(--color-shell-300)"} />
+                <Line dataKey="countNo" stroke={open ? "var(--color-coral-600)" : "var(--color-coral-300)"} />
             </LineChart>
         </ChartContainer>
 
-        <div className="absolute bottom-0 right-0 p-1 flex gap-2">
-            <Button size="sm" onClick={() => handleBuy("yes")} disabled={loading === market.cid}>
-                <CheckCircle2Icon /> YES {yesPrice}
-            </Button>
-            <Button size="sm" onClick={() => handleBuy("no")} variant="secondary" disabled={loading === market.cid}>
-                <XCircleIcon />NO {noPrice}
-            </Button>
-        </div>
-
+        {open &&
+            <div className="absolute bottom-0 right-0 p-1 flex gap-2">
+                <Button size="sm" onClick={() => handleBuy("yes")} disabled={loading === market.cid}>
+                    <CheckCircle2Icon /> YES {yesPrice}
+                </Button>
+                <Button size="sm" onClick={() => handleBuy("no")} variant="secondary" disabled={loading === market.cid}>
+                    <XCircleIcon />NO {noPrice}
+                </Button>
+            </div>
+        }
     </div>
 }
