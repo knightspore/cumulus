@@ -1,4 +1,5 @@
 import type { Market } from "@/web/providers/cumulus-provider"
+import type { ProfileViewDetailed } from "@atcute/bluesky/types/app/actor/defs";
 import { getUnixTime } from "date-fns";
 
 function lsmr(q1: number, q2: number, b: number) {
@@ -12,7 +13,7 @@ export function getPrices(yes: number, no: number, liquidity: number): [yesPrice
     ]
 }
 
-export function parseMarket(market: Market) {
+export function parseMarket(market: Market, profile: ProfileViewDetailed) {
     let [countYes, countNo] = [0, 0];
 
     const bets = market.bets
@@ -24,10 +25,17 @@ export function parseMarket(market: Market) {
         });
 
     const [yesPrice, noPrice] = getPrices(countYes, countNo, market.liquidity);
-    const positionCount = market.bets?.length ?? 0;
-    const days = (getUnixTime(market.closesAt) - getUnixTime(market.createdAt)) / 60 / 60 / 24;
-    const isMarketOpen = new Date() < market.closesAt;
-    const canPlaceBets = isMarketOpen && (market.resolution === null)
 
-    return { countYes, countNo, bets, yesPrice, noPrice, positionCount, days, isMarketOpen, canPlaceBets }
+    return {
+        countYes,
+        countNo,
+        bets,
+        yesPrice,
+        noPrice,
+        positionCount: market.bets?.length ?? 0,
+        days: (getUnixTime(market.closesAt) - getUnixTime(market.createdAt)) / 60 / 60 / 24,
+        userOwnsMarket: market.did === profile.did,
+        isMarketOpen: new Date() < market.closesAt && market.resolution === null,
+        marketHasResolution: market.resolution !== null,
+    }
 }

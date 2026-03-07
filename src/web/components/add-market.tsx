@@ -24,7 +24,7 @@ export function AddMarket() {
         try {
             setLoading(true);
             const res = await createMarket(question, liquidity, new Date(closesAt!).toISOString(), profile.did, client)
-            if (res.uri) toast.success(<>Created Market <a target="_blank" href={`https://pdsls.dev/${res.uri}`}>{res.uri.split("/")[res.uri.split("/").length - 1]}</a></>)
+            if (res.uri) toast.success(<>Created Market <a target="_blank" href={`https://pdsls.dev/${res.uri}`}>{res.uri}</a></>)
             queryClient.invalidateQueries({ queryKey: ['markets'] });
             setOpen(false);
         } catch (e) {
