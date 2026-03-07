@@ -16,7 +16,7 @@ export function parseMarket(market: Market) {
     let [countYes, countNo] = [0, 0];
 
     const bets = market.bets
-        ?.sort((a, b) => a.createdAt > b.createdAt ? 1 : 0)
+        ?.sort((a, b) => a.createdAt > b.createdAt ? 1 : -1)
         .map(bet => {
             bet.position === "yes" ? countYes++ : countNo++;
             const [currPriceYes, currPriceNo] = getPrices(countYes, countNo, market.liquidity);
