@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import { ZaCoCiaranCumulusBet, ZaCoCiaranCumulusMarket, ZaCoCiaranCumulusResolution } from '../../generated/typescript';
-import { is, type ActorIdentifier, type Did } from '@atcute/lexicons';
+import { is, type Did } from '@atcute/lexicons';
 import type { CreateCommit, DeleteCommit } from '@atcute/jetstream';
 import { DEFAULT_MARKET_COLS, DEFAULT_BET_COLS, DEFAULT_RESOLUTION_COLS, marketsTable, betsTable, resolutionsTable } from '@/db'
 import { eq } from 'drizzle-orm';

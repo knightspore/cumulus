@@ -19,16 +19,16 @@ console.log(`> Connecting to ${jetstream.getOptions().url} and listening for eve
 
 async function handleCreate(did: Did, commit: CreateCommit) {
     console.log("Handling Create Commit:", createUri(did, commit.collection, commit.rkey));
-    tryCreateMarket(did, commit);
-    tryCreateBet(did, commit);
-    tryCreateResolution(did, commit);
+    await tryCreateMarket(did, commit);
+    await tryCreateBet(did, commit);
+    await tryCreateResolution(did, commit);
 }
 
 async function handleDelete(did: Did, commit: DeleteCommit) {
     console.log("Handling Delete Commit:", createUri(did, commit.collection, commit.rkey));
-    tryDeleteMarket(did, commit);
-    tryDeleteBet(did, commit);
-    tryDeleteResolution(did, commit);
+    await tryDeleteMarket(did, commit);
+    await tryDeleteBet(did, commit);
+    await tryDeleteResolution(did, commit);
 }
 
 for await (const event of jetstream) {
