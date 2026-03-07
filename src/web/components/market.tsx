@@ -58,8 +58,10 @@ export default function Market({ market }: Props) {
             <p>{isMarketOpen ? "Closes" : "Closed"}: {readableDateDiff(market.closesAt)}</p>
             <p>Positions: {positionCount}</p>
             {!isMarketOpen && (marketHasResolution
-                ? <p>Resolution: <span className={market.resolution?.answer === "yes" ? "text-green-500" : "text-red-500"}>{market.resolution?.answer.toUpperCase()}</span></p>
-                : <p>Resolution: PENDING</p>
+                ? <p>Resolution: <span className={market.resolution?.answer === "yes" ? "text-green-500" : "text-red-500"}>
+                    {market.resolution?.answer.toUpperCase()}
+                </span> ({yesPrice} / {noPrice})</p>
+                : <p>Resolution: PENDING ({yesPrice} / {noPrice})</p>
             )}
         </div>
 
