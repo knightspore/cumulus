@@ -1,0 +1,2 @@
+ALTER TABLE "bets" ADD CONSTRAINT "bets_marketUri_markets_uri_fk" FOREIGN KEY ("marketUri") REFERENCES "public"."markets"("uri") ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE "resolutions" ADD CONSTRAINT "resolutions_marketUri_markets_uri_fk" FOREIGN KEY ("marketUri") REFERENCES "public"."markets"("uri") ON DELETE no action ON UPDATE no action;

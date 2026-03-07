@@ -8,6 +8,13 @@
       "when": 1772636755706,
       "tag": "0000_happy_ultimatum",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1772908772325,
+      "tag": "0001_previous_shadowcat",
+      "breakpoints": true
     }
   ]
 }
