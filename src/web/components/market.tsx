@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import type { Market } from "@/web/providers/cumulus-provider"
 import { createBet } from "@/core/atproto-api";
 import type { ResourceUri } from "@atcute/lexicons";
@@ -10,29 +10,18 @@ import { Button } from "@/web/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { CheckCircle2Icon, XCircleIcon } from "lucide-react";
 import { parseMarket } from "@/core/markets";
-import { readableDateDiff } from "@/core/utils";
 import { ResolveMarket } from "./resolve-market";
+import { readableDateDiff } from "@/core/utils";
 
 type Props = {
-    market: Market
+    market: ReturnType<typeof parseMarket>,
 }
 
 export default function Market({ market }: Props) {
 
     const { profile, client } = useAuth()
-
     const [loading, setLoading] = useState<string | boolean>(false);
-
-    const {
-        yesPrice,
-        noPrice,
-        bets,
-        positionCount,
-        isMarketOpen,
-        marketHasResolution,
-        userOwnsMarket
-    } = useMemo(() => parseMarket(market, profile), [market, profile]);
-
+    const userOwnsMarket = profile.did === market.did;
     const queryClient = useQueryClient();
 
     async function handleBuy(position: "yes" | "no") {
@@ -55,24 +44,24 @@ export default function Market({ market }: Props) {
 
         <div className="absolute inset-0 p-2">
             <h2 className="text-xl font-bold flex gap-1 items-center">{market.question}</h2>
-            <p>{isMarketOpen ? "Closes" : "Closed"}: {readableDateDiff(market.closesAt)}</p>
-            <p>Positions: {positionCount}</p>
-            {!isMarketOpen && (marketHasResolution
+            <p>{market.isOpen ? "Closes" : "Closed"}: {readableDateDiff(market.closesAt)}</p>
+            <p>Positions: {market.countBets}</p>
+            {!market.isOpen && (market.isResolved
                 ? <p>Resolution: <span className={market.resolution?.answer === "yes" ? "text-green-500" : "text-red-500"}>
                     {market.resolution?.answer.toUpperCase()}
-                </span> ({yesPrice} / {noPrice})</p>
-                : <p>Resolution: PENDING ({yesPrice} / {noPrice})</p>
+                </span> ({market.priceYes} / {market.priceNo})</p>
+                : <p>Resolution: PENDING ({market.priceYes} / {market.priceNo})</p>
             )}
         </div>
 
         <ChartContainer config={{ countYes: { label: "Yes" }, countNo: { label: "No" } }}>
-            <LineChart data={bets}>
+            <LineChart data={market.bets}>
                 <Tooltip />
                 <Line
                     dataKey="countYes"
                     dot={false}
                     type="natural"
-                    stroke={isMarketOpen
+                    stroke={market.isOpen
                         ? "var(--color-shell-600)"
                         : market.resolution?.answer === "yes" ? "var(--color-green-500)" : "var(--color-shell-200)"}
                 />
@@ -80,29 +69,27 @@ export default function Market({ market }: Props) {
                     dataKey="countNo"
                     dot={false}
                     type="natural"
-                    stroke={isMarketOpen
+                    stroke={market.isOpen
                         ? "var(--color-coral-600)"
                         : market.resolution?.answer === "no" ? "var(--color-red-500)" : "var(--color-coral-200)"}
                 />
             </LineChart>
         </ChartContainer>
 
-        {isMarketOpen &&
+        {market.isOpen &&
             <div className="absolute bottom-0 right-0 p-1 flex gap-2">
                 <Button size="sm" onClick={() => handleBuy("yes")} disabled={loading === market.cid}>
-                    <CheckCircle2Icon /> YES {yesPrice}
+                    <CheckCircle2Icon /> YES {market.priceYes}
                 </Button>
                 <Button size="sm" onClick={() => handleBuy("no")} variant="secondary" disabled={loading === market.cid}>
-                    <XCircleIcon />NO {noPrice}
+                    <XCircleIcon />NO {market.priceNo}
                 </Button>
-            </div>
-        }
+            </div>}
 
 
         {userOwnsMarket && !market.resolution &&
             <div className="absolute top-0 right-0 p-1 flex gap-2">
                 <ResolveMarket market={market} />
-            </div>
-        }
+            </div>}
     </div >
 }

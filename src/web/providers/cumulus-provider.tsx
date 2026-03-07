@@ -4,6 +4,7 @@ import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { type CumulusServer } from "@/server/types";
 import type { InferSelectModel } from "drizzle-orm";
 import type { betsTable, marketsTable, resolutionsTable } from "@/db";
+import { parseMarket } from "@/core/markets";
 
 
 export type Market = InferSelectModel<typeof marketsTable> & {
@@ -12,7 +13,7 @@ export type Market = InferSelectModel<typeof marketsTable> & {
 }
 
 export interface CumulusContext {
-    markets: UseQueryResult<Market[]>,
+    markets: UseQueryResult<Array<ReturnType<typeof parseMarket>>>,
 }
 
 export const CumulusContext = createContext<CumulusContext | undefined>(undefined);
@@ -26,7 +27,7 @@ export default function Cumulus({ children }: PropsWithChildren) {
         queryFn: async () => {
             const { data, error } = await server.api.markets.get()
             if (error) throw error;
-            return data as unknown as Market[];
+            return (data as unknown as Market[]).map(m => parseMarket(m))
         },
     });
 
