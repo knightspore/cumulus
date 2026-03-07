@@ -54,6 +54,5 @@ export function calculateScoreAndRep(markets: Array<ReturnType<typeof parseMarke
         }
     }
 
-
-    return { score, rep };
+    return { score: score.toFixed(2), rep };
 }
