@@ -49,7 +49,7 @@ export const DEFAULT_BET_COLS = {
 export const resolutionsTable = pgTable("resolutions", {
     ...SHARED_SCHEMA,
     answer: resolutionAnswerEnum().notNull(),
-    marketUri: text().notNull().references(() => marketsTable.uri),
+    marketUri: text().notNull().unique().references(() => marketsTable.uri),
 });
 
 export const DEFAULT_RESOLUTION_COLS = {
