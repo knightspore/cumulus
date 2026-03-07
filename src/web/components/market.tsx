@@ -20,7 +20,9 @@ type Props = {
 export default function Market({ market }: Props) {
 
     const { profile, client } = useAuth()
+
     const [loading, setLoading] = useState<string | boolean>(false);
+
     const {
         yesPrice,
         noPrice,
@@ -48,7 +50,7 @@ export default function Market({ market }: Props) {
 
     return <div
         key={market.cid}
-        className="rounded-lg relative uppercase bg-radial-[at_80%_200%] from-coral-500 bg-slate-300 via-coral-50"
+        className="rounded-lg relative uppercase bg-radial-[at_80%_200%] from-coral-300 to-slate-300 via-coral-50"
     >
 
         <div className="absolute inset-0 p-2">
@@ -56,7 +58,7 @@ export default function Market({ market }: Props) {
             <p>{isMarketOpen ? "Closes" : "Closed"}: {readableDateDiff(market.closesAt)}</p>
             <p>Positions: {positionCount}</p>
             {!isMarketOpen && (marketHasResolution
-                ? <p>Resolution: {market.resolution?.answer.toUpperCase()}</p>
+                ? <p>Resolution: <span className={market.resolution?.answer === "yes" ? "text-green-500" : "text-red-500"}>{market.resolution?.answer.toUpperCase()}</span></p>
                 : <p>Resolution: PENDING</p>
             )}
         </div>
@@ -64,13 +66,21 @@ export default function Market({ market }: Props) {
         <ChartContainer config={{ countYes: { label: "Yes" }, countNo: { label: "No" } }}>
             <LineChart data={bets}>
                 <Tooltip />
-                <Line dataKey="countYes" stroke={isMarketOpen
-                    ? "var(--color-shell-600)"
-                    : market.resolution?.answer === "yes" ? "" : "var(--color-shell-300)"}
+                <Line
+                    dataKey="countYes"
+                    dot={false}
+                    type="natural"
+                    stroke={isMarketOpen
+                        ? "var(--color-shell-600)"
+                        : market.resolution?.answer === "yes" ? "var(--color-green-500)" : "var(--color-shell-200)"}
                 />
-                <Line dataKey="countNo" stroke={isMarketOpen
-                    ? "var(--color-coral-600)"
-                    : market.resolution?.answer === "no" ? "" : "var(--color-coral-300)"}
+                <Line
+                    dataKey="countNo"
+                    dot={false}
+                    type="natural"
+                    stroke={isMarketOpen
+                        ? "var(--color-coral-600)"
+                        : market.resolution?.answer === "no" ? "var(--color-red-500)" : "var(--color-coral-200)"}
                 />
             </LineChart>
         </ChartContainer>
