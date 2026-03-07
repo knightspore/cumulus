@@ -95,6 +95,9 @@ export async function tryCreateBet(did: Did, { record, rev, rkey, cid }: CreateC
         const existing = await db.query.betsTable.findFirst({ where: eq(betsTable.uri, uri) });
         if (existing) return;
 
+        const resolution = await db.query.resolutionsTable.findFirst({ where: eq(resolutionsTable.uri, market.uri) });
+        if (resolution?.uri) return;
+
         const indexedMarket = await db.query.marketsTable.findFirst({ where: eq(marketsTable.uri, market.uri), columns: { closesAt: true } });
         if (!indexedMarket || (new Date() > indexedMarket.closesAt)) return;
 
