@@ -119,8 +119,15 @@ export async function tryCreateResolution(did: Did, { record, rev, rkey, cid }: 
         const { answer, market } = record;
         const createdAt = new Date(record.createdAt);
 
+        const indexedMarket = await db.query.marketsTable.findFirst({ where: eq(marketsTable.uri, market.uri), columns: { did: true }});
+        if (!indexedMarket) return;
+
+        const canUserEdit = did === indexedMarket.did;
+        if (!canUserEdit) return;
+
         const existing = await db.query.resolutionsTable.findFirst({ where: eq(resolutionsTable.uri, uri) });
         if (existing) return;
+
 
         const resolutionData: typeof resolutionsTable.$inferInsert = {
             uri, did, rev, rkey, cid, answer, marketUri: market.uri, record, createdAt
