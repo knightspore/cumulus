@@ -5,12 +5,16 @@ import { AddMarket } from "@/web/components/add-market";
 
 
 export default function App() {
-    const { markets } = useCumulus();
+    const { markets, score, rep } = useCumulus();
 
     if (markets.isLoading) return <div className="p-4"><Spinner className='m-auto' /></div>
 
     return <div className="grid p-2 md:grid-cols-2 gap-2">
         {markets.data?.map(market => <Market key={market.uri} market={market} />)}
+        <div>
+            <p className="text-6xl first-letter:text-coral-500">Score: {score}</p>
+            <p className="text-4xl first-letter:text-coral-500">Rep: {rep}</p>
+        </div>
         <AddMarket />
     </div>
 }

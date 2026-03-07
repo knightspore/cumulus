@@ -1,4 +1,5 @@
 import type { Market } from "@/web/providers/cumulus-provider"
+import type { Did } from "@atcute/lexicons";
 import { getUnixTime } from "date-fns";
 
 function lsmr(q1: number, q2: number, b: number) {
@@ -20,7 +21,8 @@ export function parseMarket(market: Market) {
         .map(bet => {
             bet.position === "yes" ? countYes++ : countNo++;
             const { priceYes, priceNo } = getPrices(countYes, countNo, market.liquidity);
-            return { ...bet, countYes, countNo, positionPriceYes: priceYes, positionPriceNo: priceNo }
+            const costPaid = bet.position === "yes" ? priceYes : priceNo;
+            return { ...bet, countYes, countNo, positionPriceYes: priceYes, positionPriceNo: priceNo, costPaid }
         });
 
     return {
@@ -34,4 +36,24 @@ export function parseMarket(market: Market) {
         isOpen: new Date() < market.closesAt && market.resolution === null,
         isResolved: market.resolution !== null,
     }
+}
+
+export function calculateScoreAndRep(markets: Array<ReturnType<typeof parseMarket>>, did: Did) {
+    let score = 0; // Profit and Loss
+    let rep = 0; // Popularity of markets
+
+    for (const market of markets) {
+        const answer = market?.resolution?.answer;
+        if (!answer) continue;
+        for (const bet of market.bets ?? []) {
+            if (market.did === did) rep++;
+            if (bet.did === did) {
+                if (bet.position === answer) score += (1.0 - parseFloat(bet.costPaid))
+                else if (bet.position === answer) score -= parseFloat(bet.costPaid)
+            }
+        }
+    }
+
+
+    return { score, rep };
 }

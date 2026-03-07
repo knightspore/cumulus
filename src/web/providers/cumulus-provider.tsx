@@ -1,10 +1,11 @@
 import { treaty } from "@elysiajs/eden"
-import { createContext, type PropsWithChildren } from "react";
+import { createContext, useMemo, type PropsWithChildren } from "react";
 import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import { type CumulusServer } from "@/server/types";
 import type { InferSelectModel } from "drizzle-orm";
 import type { betsTable, marketsTable, resolutionsTable } from "@/db";
-import { parseMarket } from "@/core/markets";
+import { calculateScoreAndRep, parseMarket } from "@/core/markets";
+import { useAuth } from "../hooks/useAuth";
 
 
 export type Market = InferSelectModel<typeof marketsTable> & {
@@ -14,12 +15,15 @@ export type Market = InferSelectModel<typeof marketsTable> & {
 
 export interface CumulusContext {
     markets: UseQueryResult<Array<ReturnType<typeof parseMarket>>>,
+    score: number,
+    rep: number,
 }
 
 export const CumulusContext = createContext<CumulusContext | undefined>(undefined);
 
 export default function Cumulus({ children }: PropsWithChildren) {
 
+    const { profile } = useAuth();
     const server = treaty<CumulusServer>(window.location.origin);
 
     const markets = useQuery({
@@ -31,5 +35,14 @@ export default function Cumulus({ children }: PropsWithChildren) {
         },
     });
 
-    return <CumulusContext.Provider value={{ markets }}>{children}</ CumulusContext.Provider>
+    const { score, rep } = useMemo(() =>
+        markets.data
+            ? calculateScoreAndRep(markets.data, profile.did)
+            : { score: 0, rep: 0 },
+        [markets.data, profile.did]
+    );
+
+    return <CumulusContext.Provider value={{ markets, score, rep }}>
+        {children}
+    </ CumulusContext.Provider>
 }
