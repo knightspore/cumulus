@@ -6,19 +6,17 @@ import path from "path";
 import metadata from "./src/web/public/oauth-client-metadata.json"
 
 const SERVER_HOST = "127.0.0.1";
-const SERVER_PORT = process.env.LOCAL ? 8080 : 12520;
+const SERVER_PORT = 12520;
 
 const atProtoOAuthPlugin: Plugin = {
     name: "atproto-oauth-plugin",
     config: (_conf, { command }) => {
-        if (command === "build" && !process.env.LOCAL) {
+        if (command === "build") {
             process.env.VITE_OAUTH_CLIENT_ID = metadata.client_id;
             process.env.VITE_OAUTH_REDIRECT_URI = metadata.redirect_uris[0];
         } else {
             const redirectUri = `http://${SERVER_HOST}:${SERVER_PORT}${new URL(metadata.redirect_uris[0]!).pathname}`
-            process.env.VITE_OAUTH_CLIENT_ID =
-                `http://localhost?redirect_uri=${encodeURIComponent(redirectUri)}` +
-                `&scope=${encodeURIComponent(metadata.scope)}`;
+            process.env.VITE_OAUTH_CLIENT_ID = `http://localhost?redirect_uri=${encodeURIComponent(redirectUri)}&scope=${encodeURIComponent(metadata.scope)}`;
             process.env.VITE_OAUTH_REDIRECT_URI = redirectUri;
         }
         process.env.VITE_OAUTH_SCOPE = metadata.scope;
@@ -42,7 +40,7 @@ export default defineConfig({
         outDir: "../../dist",
         emptyOutDir: true,
     },
-    resolve: { 
+    resolve: {
         alias: {
             "@": path.resolve(__dirname, "./src/"),
         }

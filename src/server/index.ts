@@ -3,6 +3,7 @@ import { staticPlugin } from '@elysiajs/static'
 import { swagger } from '@elysiajs/swagger'
 import { cors } from '@elysiajs/cors'
 import { tryFindMarket, tryFindMarketBets, tryFindMarketResolutions, tryListMarkets } from "@/core/api";
+import { ENV } from "@/core/constants";
 
 export const app = new Elysia()
     .use(cors())
@@ -16,6 +17,6 @@ export const app = new Elysia()
             .get("/:uri/bets", async ({ params }) => await tryFindMarketBets(params.uri))
             .get("/:uri/resolutions", async ({ params }) => await tryFindMarketResolutions(params.uri))
         )
-    ).listen({ port: process.env.PORT!, hostname: "0.0.0.0" })
+    ).listen({ port: ENV.PORT, hostname: "0.0.0.0" })
 
 console.log(`> Server running on ${app.server?.protocol}://${app.server?.hostname}:${app.server?.port}`);

@@ -15,7 +15,6 @@
         "server:dev": "bun --watch src/server/index.ts",
         "server:build": "bun build src/server/index.ts --compile --outfile build/server",
         "build": "bun jetstream:build && bun web:build && bun server:build",
-        "build:dev": "bun jetstream:build && LOCAL=1 bun web:build && bun server:build",
         "test": "bun vitest"
     },
     "devDependencies": {
