@@ -7,7 +7,7 @@ export enum Lexicon {
 }
 
 export const ENV = z.object({
-    PORT: z.number(),
+    PORT: z.coerce.number(),
     BASE_URL: z.url(),
     DATABASE_URL: z.stringFormat("postgresql://", (val) => val.startsWith("postgresql://")),
 }).parse(process.env);
