@@ -2,42 +2,114 @@ import 'dotenv/config';
 import { ZaCoCiaranCumulusBet, ZaCoCiaranCumulusMarket, ZaCoCiaranCumulusResolution } from '../../generated/typescript';
 import { is, type Did } from '@atcute/lexicons';
 import type { CreateCommit, DeleteCommit } from '@atcute/jetstream';
-import { DEFAULT_MARKET_COLS, DEFAULT_BET_COLS, DEFAULT_RESOLUTION_COLS, marketsTable, betsTable, resolutionsTable } from '@/db'
+import { marketsTable, betsTable, resolutionsTable } from '@/db'
 import { eq } from 'drizzle-orm';
 import { db } from '@/db';
 import { createUri, isBetCollection, isMarketCollection, isResolutionCollection } from './utils';
 
 export async function tryListMarkets() {
     return await db.query.marketsTable.findMany({
-        columns: DEFAULT_MARKET_COLS,
+        columns: {
+            uri: true,
+            did: true,
+            cid: true,
+            question: true,
+            liquidity: true,
+            closesAt: true,
+            createdAt: true,
+        },
         orderBy: (markets, { desc }) => [desc(markets.createdAt)],
         with: {
-            bets: { columns: DEFAULT_BET_COLS },
-            resolution: { columns: DEFAULT_RESOLUTION_COLS }
+            bets: {
+                columns: {
+                    uri: true,
+                    did: true,
+                    cid: true,
+                    position: true,
+                    createdAt: true,
+                }
+            },
+            resolution: {
+                columns: {
+                    uri: true,
+                    did: true,
+                    cid: true,
+                    answer: true,
+                    createdAt: true,
+                }
+            }
         },
     })
 }
 
 export async function tryFindMarket(uri: string) {
     return await db.query.marketsTable.findFirst({
-        columns: DEFAULT_MARKET_COLS,
+        columns: {
+            uri: true,
+            did: true,
+            cid: true,
+            question: true,
+            liquidity: true,
+            closesAt: true,
+            createdAt: true,
+        },
         where: eq(marketsTable.uri, uri),
         with: {
-            bets: { columns: DEFAULT_BET_COLS },
-            resolution: { columns: DEFAULT_RESOLUTION_COLS }
+            bets: {
+                columns: {
+                    uri: true,
+                    did: true,
+                    cid: true,
+                    position: true,
+                    createdAt: true,
+                }
+            },
+            resolution: {
+                columns: {
+                    uri: true,
+                    did: true,
+                    cid: true,
+                    answer: true,
+                    createdAt: true,
+                }
+            }
         }
     })
 }
 
 export async function tryFindMarketBets(uri: string) {
     return await db.query.betsTable.findMany({
-        columns: DEFAULT_BET_COLS,
+        columns: {
+            uri: true,
+            did: true,
+            cid: true,
+            position: true,
+            createdAt: true,
+        },
         where: eq(betsTable.marketUri, uri),
         orderBy: (bets, { desc }) => [desc(bets.createdAt)],
         with: {
             market: {
-                columns: DEFAULT_MARKET_COLS,
-                with: { resolution: { columns: DEFAULT_RESOLUTION_COLS } }
+                columns: {
+                    uri: true,
+                    did: true,
+                    cid: true,
+                    question: true,
+                    liquidity: true,
+                    closesAt: true,
+                    createdAt: true,
+                },
+                with: {
+                    resolution: {
+                        columns: {
+                            uri: true,
+                            did: true,
+                            cid: true,
+                            answer: true,
+                            createdAt: true,
+                        }
+                    }
+                }
             }
         }
     })
@@ -45,13 +117,37 @@ export async function tryFindMarketBets(uri: string) {
 
 export async function tryFindMarketResolutions(uri: string) {
     return await db.query.resolutionsTable.findFirst({
-        columns: DEFAULT_RESOLUTION_COLS,
+        columns: {
+            uri: true,
+            did: true,
+            cid: true,
+            answer: true,
+            createdAt: true,
+        },
         where: eq(resolutionsTable.marketUri, uri),
         orderBy: (resolutions, { desc }) => [desc(resolutions.createdAt)],
         with: {
             market: {
-                columns: DEFAULT_MARKET_COLS,
-                with: { bets: { columns: DEFAULT_BET_COLS } }
+                columns: {
+                    uri: true,
+                    did: true,
+                    cid: true,
+                    question: true,
+                    liquidity: true,
+                    closesAt: true,
+                    createdAt: true,
+                },
+                with: {
+                    bets: {
+                        columns: {
+                            uri: true,
+                            did: true,
+                            cid: true,
+                            position: true,
+                            createdAt: true,
+                        }
+                    }
+                }
             }
         }
     })

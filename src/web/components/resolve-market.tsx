@@ -3,16 +3,16 @@ import { DrawerTitle, Drawer, DrawerContent, DrawerHeader, DrawerTrigger, Drawer
 import { useAuth } from "../hooks/useAuth";
 import { Button } from "./ui/button";
 import { CircleQuestionMark } from "lucide-react";
-import type { Market } from "../providers/cumulus-provider";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select";
 import { Spinner } from "./ui/spinner";
 import { createResolution } from "@/core/atproto-api";
 import type { ResourceUri } from "@atcute/lexicons";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
+import type { parseMarket } from "@/core/markets";
 
 type Props = {
-    market: Market;
+    market: ReturnType<typeof parseMarket>
 }
 
 export function ResolveMarket({ market }: Props) {

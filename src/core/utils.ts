@@ -2,6 +2,10 @@ import type { Did, RecordKey } from "@atcute/lexicons";
 import { formatDistance } from "date-fns";
 import { Lexicon } from "./constants";
 
+export function lmsr(q1: number, q2: number, b: number) {
+    return 1 / (1 + Math.exp((q2 - q1) / b))
+}
+
 export function readableDateDiff(date: string | Date) {
     return formatDistance(new Date(date), new Date(), { addSuffix: true })
 }

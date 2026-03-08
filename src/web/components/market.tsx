@@ -1,5 +1,4 @@
 import { useState } from "react";
-import type { Market } from "@/web/providers/cumulus-provider"
 import { createBet } from "@/core/atproto-api";
 import type { ResourceUri } from "@atcute/lexicons";
 import { toast } from "sonner";
