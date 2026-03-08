@@ -52,15 +52,15 @@ export default function Auth({ children }: PropsWithChildren) {
             <div className="flex items-center gap-2">{data?.profile && <Avatar profile={data.profile} />}</div>
         </header>
         <div className="flex-1 overflow-y-scroll">
-            {!authenticated && !loading &&
-                <form onSubmit={handleSubmit} className="max-w-sm m-auto flex flex-col gap-2">
+            {!authenticated &&
+                <form onSubmit={handleSubmit} className="pt-2 max-w-sm m-auto flex flex-col gap-2">
                     <Input value={identifier} onChange={(e) => setIdentifier(e.target.value.toLowerCase().replaceAll(" ", ""))} autoComplete="username" placeholder="username.com" />
                     <Button disabled={loading} size="sm" type="submit">{loading && <Spinner />} Login</Button>
                 </form>}
 
-            {authenticated && !loading &&
+            {authenticated &&
                 <AuthContext.Provider value={{ profile: data.profile, client: data.client }}>
-                    {children}
+                    {loading ? <Spinner /> : children}
                 </AuthContext.Provider>}
         </div>
     </main>
