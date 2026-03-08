@@ -1,10 +1,8 @@
 import type { AppBskyActorDefs } from "@atcute/bluesky";
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from "@/web/components/ui/drawer";
 import { logout } from "@/web/lib/oauth";
-import { Spinner } from "@/web/components/ui/spinner";
 
-export default function Avatar({ profile }: { profile?: AppBskyActorDefs.ProfileViewDetailed }) {
-    if (!profile) return <Spinner className="text-coral-500" />
+export default function Avatar({ profile }: { profile: AppBskyActorDefs.ProfileViewDetailed }) {
     return <Drawer>
         <DrawerTrigger className="flex items-center gap-2 text-sm text-coral-500 tracking-tight" disabled={!profile}>
             <img src={profile.avatar} className="size-5 rounded-full border border-coral-500 bg-coral-900" />
