@@ -1,4 +1,4 @@
-import { text, integer, json, pgTable, timestamp, pgEnum } from "drizzle-orm/pg-core";
+import { text, integer, json, pgTable, timestamp, pgEnum, index } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 
@@ -26,7 +26,9 @@ export const betsTable = pgTable("bets", {
     ...SHARED_SCHEMA,
     position: betPositionEnum().notNull(),
     marketUri: text().notNull().references(() => marketsTable.uri),
-});
+}, (table) => [
+        index('bets_market_uri_idx').on(table.marketUri),
+]);
 
 export const resolutionsTable = pgTable("resolutions", {
     ...SHARED_SCHEMA,
