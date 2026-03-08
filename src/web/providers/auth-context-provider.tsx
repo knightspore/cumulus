@@ -43,7 +43,7 @@ export default function Auth({ children }: PropsWithChildren) {
         staleTime: () => Infinity,
     });
 
-    const loading = isPending ?? isLoading ?? isLoginLoading;
+    const loading = isPending || isLoading || isLoginLoading;
     const authenticated = data?.client && data?.profile;
 
     return <main className="subpixel-antialiased text-shell-900 bg-shell-50 flex flex-col h-screen">
