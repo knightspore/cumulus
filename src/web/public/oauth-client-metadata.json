@@ -1,8 +1,8 @@
 {
-	"client_id": "https://cumulus-production.up.railway.app/oauth-client-metadata.json",
+	"client_id": "https://cumulus.ciaran.co.za/oauth-client-metadata.json",
 	"client_name": "Cumulus",
-	"client_uri": "https://cumulus-production.up.railway.app",
-	"redirect_uris": ["https://cumulus-production.up.railway.app/"],
+	"client_uri": "https://cumulus.ciaran.co.za",
+	"redirect_uris": ["https://cumulus.ciaran.co.za/"],
 	"scope": "atproto transition:generic",
 	"grant_types": ["authorization_code", "refresh_token"],
 	"response_types": ["code"],
