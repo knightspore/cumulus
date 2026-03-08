@@ -3,7 +3,7 @@ import { staticPlugin } from '@elysiajs/static'
 import { swagger } from '@elysiajs/swagger'
 import { cors } from '@elysiajs/cors'
 import { tryFindMarket, tryFindMarketBets, tryFindMarketResolutions, tryListMarkets } from "@/core/api";
-import { ENV } from "@/core/constants";
+import { ENV } from "@/core/env";
 
 export const app = new Elysia()
     .use(cors())

@@ -1,7 +1,7 @@
 import { text, integer, json, pgTable, timestamp, pgEnum, index } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
-import { ENV } from "@/core/constants";
+import { ENV } from "@/core/env";
 
 const SHARED_SCHEMA = {
     uri: text().primaryKey().notNull(),
